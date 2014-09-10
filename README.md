@@ -5,6 +5,10 @@
 - pan-python with wfapi (wildfire branch)
 - lxml (from python-maec and python-cybox)
 
+### Simple usage
+
+	wildfire-to-stix.py -h <sample hash file> -o <stix package name>
+
 #### lxml on Mac OS X
 -	install libxml2 with brew:
 
