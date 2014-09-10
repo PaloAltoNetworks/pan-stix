@@ -25,7 +25,7 @@ class PanWfReportError(Exception):
             return ''
         return self.msg
 
-def set_malware_instance_object_attributes_from_wffileinfo(csubject, wffileinfo, wfreport):
+def get_malware_instance_object_attributes_from_fileinfo(wffileinfo, wfreport):
     cmioa = cybox.core.Object()
 
     cmioa.properties = cybox.objects.file_object.File()
@@ -55,23 +55,9 @@ def set_malware_instance_object_attributes_from_wffileinfo(csubject, wffileinfo,
         else:
             logging.info('ignored file_info tag %s'%cchild.tag)
 
-    csubject.set_malware_instance_object_attributes(cmioa)
+    return cmioa
 
-def get_malware_subject_from_wfreport(wfreport, pcap=None):
-    WFNS = cybox.utils.Namespace("http://wildfire.selfaddress.es/", "wildfire")
-    maec.utils.set_id_namespace(WFNS)
-    cybox.utils.set_id_namespace(WFNS)
-
-    csubject = maec.package.malware_subject.MalwareSubject()
-
-    # create malware instance object attribute from file_info structure
-    wffileinfo = wfreport.xpath('file_info')
-    if len(wffileinfo) != 1:
-        raise PanWfReportError('wrong number of file_info objects in wildfire report: %d'%len(wffileinfo))
-
-    wffileinfo = wffileinfo[0]
-    set_malware_instance_object_attributes_from_wffileinfo(csubject, wffileinfo, wfreport)
-
+def add_malware_analysis_from_report(csubject, wfrreport, pcapcb):
     wfrreports = wfreport.xpath('task_info/report')
     if len(wfrreports) != 0:
         for cwfrr in wfrreports:
@@ -92,6 +78,24 @@ def get_malware_subject_from_wfreport(wfreport, pcap=None):
                 continue
     else:
         logging.warning('no report inside wildfire report')
+
+def get_malware_subject_from_wfreport(wfreport, pcap=None):
+    WFNS = cybox.utils.Namespace("http://wildfire.selfaddress.es/", "wildfire")
+    maec.utils.set_id_namespace(WFNS)
+    cybox.utils.set_id_namespace(WFNS)
+
+    csubject = maec.package.malware_subject.MalwareSubject()
+
+    # create malware instance object attribute from file_info structure
+    wffileinfo = wfreport.xpath('file_info')
+    if len(wffileinfo) != 1:
+        raise PanWfReportError('wrong number of file_info objects in wildfire report: %d'%len(wffileinfo))
+
+    wffileinfo = wffileinfo[0]
+    cmioa = get_malware_instance_object_attributes_from_fileinfo(csubject, wffileinfo, wfreport)
+    csubject.set_malware_instance_object_attributes(cmioa)
+
+    add_malware_analysis_from_report(csubject, wfreport, pcap)
 
     return csubject
 

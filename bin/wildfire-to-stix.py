@@ -22,8 +22,11 @@ import maec.package.malware_subject
 
 import panstix.wf
 import panstix.wf.sample
+import panstix.utils
 
 def dump_report_to_stix(options):
+    panstix.utils.set_id_namespace("http://wildfire.selfaddress.es/": "wildfire")
+
     if options['inreport'] is not None:
         f = open(options['inreport'], 'rb')
         twfreport = f.read()
@@ -40,8 +43,6 @@ def dump_report_to_stix(options):
     msl.append(ms)
 
     msletree = lxml.etree.fromstring(msl.to_xml(pretty=False)) # XXX ugly !!!! 
-
-    stix.utils.set_id_namespace({"http://wildfire.selfaddress.es/": "wildfire"})
 
     mi = stix.extensions.malware.maec_4_1_malware.MAECInstance(msletree)
     ttp = stix.ttp.TTP()
