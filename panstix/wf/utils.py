@@ -58,7 +58,7 @@ def get_malware_instance_object_attributes_from_fileinfo(wffileinfo, wfreport):
     return cmioa
 
 def add_malware_analysis_from_report(csubject, wfrreport, pcapcb):
-    wfrreports = wfreport.xpath('task_info/report')
+    wfrreports = wfrreport.xpath('task_info/report')
     if len(wfrreports) != 0:
         for cwfrr in wfrreports:
             rversion = cwfrr.xpath('version/text()')
@@ -68,11 +68,11 @@ def add_malware_analysis_from_report(csubject, wfrreport, pcapcb):
             rversion = rversion[0].strip()
             logging.info('handling report %s'%rversion)
             if rversion == '0.1':
-                report_0_1.add_malware_analysis_from_report(csubject, cwfrr, pcap)
+                report_0_1.add_malware_analysis_from_report(csubject, cwfrr, pcapcb)
             elif rversion == '2.0':
-                report_2_0.add_malware_analysis_from_report(csubject, cwfrr, pcap)
+                report_2_0.add_malware_analysis_from_report(csubject, cwfrr, pcapcb)
             elif rversion == '3.0':
-                report_3_0.add_malware_analysis_from_report(csubject, cwfrr, pcap)                
+                report_3_0.add_malware_analysis_from_report(csubject, cwfrr, pcapcb)                
             else:
                 logging.warning('unknown report version number: %s'%rversion)
                 continue
@@ -92,7 +92,7 @@ def __create_malware_subject_from_report(wfreport, pcap=None):
         raise PanWfReportError('wrong number of file_info objects in wildfire report: %d'%len(wffileinfo))
 
     wffileinfo = wffileinfo[0]
-    cmioa = get_malware_instance_object_attributes_from_fileinfo(csubject, wffileinfo, wfreport)
+    cmioa = get_malware_instance_object_attributes_from_fileinfo(wffileinfo, wfreport)
     csubject.set_malware_instance_object_attributes(cmioa)
 
     add_malware_analysis_from_report(csubject, wfreport, pcap)
@@ -103,7 +103,7 @@ def __get_wfpcap_network_funcgenerator(tag, hash, debug):
     import pan.wfapi
 
     def __get_wfpcap(platform=None):
-        return pcap.get_raw_artifact_from_wfpcap_hash(tag, hash, debug, platform)
+        return pcap.get_raw_artifact_from_pcap_hash(tag, hash, debug, platform)
 
     return __get_wfpcap
 
@@ -123,7 +123,7 @@ def __get_wfpcap_file_funcgenerator(fnametemplate, hash):
     return __get_wffile
 
 def get_malware_subject_from_report(**kwargs):
-    hash = kwargs.get('hash', default=None)
+    hash = kwargs.get('hash', None)
 
     if 'report' in kwargs:
         f = open(kwargs['report'], 'rb')
@@ -136,7 +136,9 @@ def get_malware_subject_from_report(**kwargs):
                 hash = hash[0].strip()
             else:
                 hash = None
-    elif 'hash' in kwargs and 'tag' in kwargs and 'debug' in kwargs:
+    elif 'hash' in kwargs and \
+        'tag' in kwargs and \
+        'debug' in kwargs:
         import pan.wfapi
 
         # retrieve wildfire report
@@ -156,7 +158,7 @@ def get_malware_subject_from_report(**kwargs):
     if 'pcap' in kwargs:
         p = kwargs['pcap']
         if p == 'network':
-            if not 'debug' in kwargs or
+            if not 'debug' in kwargs or \
                 not 'tag' in kwargs:
                 raise PanWfReportError('pcap from network, but no debug or tag specified')
             pcap = __get_wfpcap_network_funcgenerator(kwargs['tag'], hash, kwargs['debug'])

@@ -1,5 +1,3 @@
-# XXX pcap when report is retrieved from file
-
 import sys
 import getopt
 import logging
@@ -7,80 +5,31 @@ import logging
 import datetime
 import dateutil.tz
 
-# lxml
-import lxml
-
-import stix.core
-import stix.indicator
-import stix.ttp
-import stix.ttp.behavior
-import stix.utils
-import cybox.utils
-import cybox.core
-import stix.extensions.malware.maec_4_1_malware
-import maec.package.malware_subject
-
-import panstix.wf
-import panstix.wf.sample
 import panstix.utils
+import panstix.packaging
 
 def dump_report_to_stix(options):
-    panstix.utils.set_id_namespace("http://wildfire.selfaddress.es/": "wildfire")
+    panstix.utils.set_id_namespace("http://wildfire.selfaddress.es/", "wildfire")
 
-    if options['inreport'] is not None:
-        f = open(options['inreport'], 'rb')
-        twfreport = f.read()
-        f.close()
-        wildfirereport = lxml.etree.fromstring(twfreport)
-        if wildfirereport.tag != 'wildfire':
-            logging.critical('invalid root tag in wildfire report: %s'%wildfirereport.tag, file=sys.stderr)
-            sys.exit(1)
-        ms = panstix.wf.get_malware_subject_from_wfreport(wildfirereport)
-    elif options['hash'] is not None:
-        ms = panstix.wf.get_malware_subject_from_wfhash(options['tag'], options['hash'], options['pcap'], options['debug'])
+    subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'debug', 'tag', 'sample', 'pcap']}
+    if 'inreport' in options:
+        subargs['report'] = options['inreport']
 
-    msl = maec.package.malware_subject.MalwareSubjectList()
-    msl.append(ms)
-
-    msletree = lxml.etree.fromstring(msl.to_xml(pretty=False)) # XXX ugly !!!! 
-
-    mi = stix.extensions.malware.maec_4_1_malware.MAECInstance(msletree)
-    ttp = stix.ttp.TTP()
-    mb = stix.ttp.behavior.Behavior()
-    mb.add_malware_instance(mi)
-    ttp.behavior = mb
-
-    stix_package = stix.core.STIXPackage()
-    stix_header = stix.core.STIXHeader()
-    stix_header.description = "Malware "+(options['hash'] if options['hash'] is not None else 'sample')+" Artifacts and Characterization"
-    stix_package.stix_header = stix_header
-    stix_package.add_ttp(ttp)
-
-    if options['hash'] is not None and options['sample']:
-        i = stix.indicator.Indicator(title="Wildfire sample "+options['hash'])
-        o = cybox.core.Observable()
-        o.description = "Raw artifact object of wildfire sample "+options['hash']
-        rao = panstix.wf.sample.get_raw_artifact_from_wfsample_hash(options['tag'], options['hash'], options['debug'])
-        if rao is not None:
-            o.object_ = rao
-            i.add_observable(o)
-            i.add_indicated_ttp(stix.ttp.TTP(idref=ttp.id_))
-            stix_package.add_indicator(i)
-
+    sp = panstix.packaging.get_stix_package_from_wfreport(**options)
     if options['outfile'] is not None:
         f = open(options['outfile'], 'w')
-        f.write(stix_package.to_xml())
+        f.write(sp.to_xml())
         f.close()
     else:
-        sys.stdout.write(stix_package.to_xml())
+        sys.stdout.write(sp.to_xml())
 
 def parse_opts():
     options = {
         'tag': None,
         'debug': 0,
         'hash': None,
-        'pcap': True,
-        'sample': True,
+        'pcap': 'network',
+        'sample': 'network',
         'inreport': None,
         'outfmt': 'stix',
         'outfile': None
