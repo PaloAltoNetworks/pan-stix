@@ -3,6 +3,14 @@ import logging
 import cybox.core
 import cybox.objects.artifact_object
 
+def get_raw_artifact_from_pcap(pcap):
+    rao = cybox.core.Object()
+    rao.properties = cybox.objects.artifact_object.Artifact(pcap, 
+                                                            cybox.objects.artifact_object.Artifact.TYPE_NETWORK)
+    rao.properties.packaging.append(cybox.objects.artifact_object.Base64Encoding())
+
+    return rao    
+
 def get_raw_artifact_from_wfpcap_hash(tag, hash, debug, platform=None):
     import pan.wfapi
 
@@ -22,9 +30,4 @@ def get_raw_artifact_from_wfpcap_hash(tag, hash, debug, platform=None):
         logging.error('no pcap from wildfire')
         return None
 
-    rao = cybox.core.Object()
-    rao.properties = cybox.objects.artifact_object.Artifact(wfapi.attachment['content'], 
-                                                            cybox.objects.artifact_object.Artifact.TYPE_NETWORK)
-    rao.properties.packaging.append(cybox.objects.artifact_object.Base64Encoding())
-
-    return rao
+    return get_raw_artifact_from_pcap(wfapi.attachment['content'])

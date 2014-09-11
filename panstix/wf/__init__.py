@@ -1,4 +1,3 @@
 from .utils import get_malware_instance_object_attributes_from_fileinfo
 from .utils import add_malware_analysis_from_report
-from .utils import get_malware_subject_from_wfhash
-from .utils import get_malware_subject_from_wfreport
+from .utils import get_malware_subject_from_report

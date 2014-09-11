@@ -3,6 +3,14 @@ import logging
 import cybox.core
 import cybox.objects.artifact_object
 
+def get_raw_artifact_from_wfsample(sample):
+    rao = cybox.core.Object()
+    rao.properties = cybox.objects.artifact_object.Artifact(sample, 
+                                                            cybox.objects.artifact_object.Artifact.TYPE_FILE)
+    rao.properties.packaging.append(cybox.objects.artifact_object.Base64Encoding())
+
+    return rao
+
 def get_raw_artifact_from_wfsample_hash(tag, hash, debug):
     import pan.wfapi
 
@@ -23,11 +31,6 @@ def get_raw_artifact_from_wfsample_hash(tag, hash, debug):
         logging.error('no sample from wildfire')
         return None
 
-    rao = cybox.core.Object()
-    rao.properties = cybox.objects.artifact_object.Artifact(wfapi.attachment['content'], 
-                                                            cybox.objects.artifact_object.Artifact.TYPE_FILE)
-    rao.properties.packaging.append(cybox.objects.artifact_object.Base64Encoding())
-
-    return rao
+    return get_raw_artifact_from_wfsample(wfapi.attachment['sample'])
 
 

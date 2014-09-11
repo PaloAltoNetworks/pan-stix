@@ -79,7 +79,7 @@ def add_malware_analysis_from_report(csubject, wfrreport, pcapcb):
     else:
         logging.warning('no report inside wildfire report')
 
-def get_malware_subject_from_wfreport(wfreport, pcap=None):
+def __create_malware_subject_from_report(wfreport, pcap=None):
     WFNS = cybox.utils.Namespace("http://wildfire.selfaddress.es/", "wildfire")
     maec.utils.set_id_namespace(WFNS)
     cybox.utils.set_id_namespace(WFNS)
@@ -99,7 +99,7 @@ def get_malware_subject_from_wfreport(wfreport, pcap=None):
 
     return csubject
 
-def __get_wfpcap_funcgenerator(tag, hash, debug):
+def __get_wfpcap_network_funcgenerator(tag, hash, debug):
     import pan.wfapi
 
     def __get_wfpcap(platform=None):
@@ -107,38 +107,64 @@ def __get_wfpcap_funcgenerator(tag, hash, debug):
 
     return __get_wfpcap
 
-def get_malware_subject_from_wfhash(tag, hash, add_pcap=True, debug=3):
-    import pan.wfapi
+def __get_wfpcap_file_funcgenerator(fnametemplate, hash):
+    def __get_wffile(platform=None):
+        try:
+            f = open(fnametemplate%{'hash': hash, 'platform': ( platform if platform is not None else 'np' )},
+                    'rb')
+            pc = f.read()
+            f.close()
+        except:
+            logging.exception('Error in opening pcap file')
+            return None
 
-    # retrieve wildfire report
-    try:
-        wfapi = pan.wfapi.PanWFapi(debug=debug,
-                                   tag=tag)
-    except pan.wfapi.PanWFapiError as msg:
-        logging.error('pan.wfapi.PanWFapi:', msg)
-        return None
+        return pcap.get_raw_artifact_from_pcap(pc)
 
-    try:
-        wfapi.report(hash=hash)
-    except pan.wfapi.PanWFapiError as msg:
-        logging.error('report: %s' % msg)
-        return None
+    return __get_wffile
 
-    if (wfapi.response_body is None):
-        logging.error('no report from wildfire')
-        return None
+def get_malware_subject_from_report(**kwargs):
+    hash = kwargs.get('hash', default=None)
 
-    if debug == 3:
-        logging.debug(wfapi.response_body)
+    if 'report' in kwargs:
+        f = open(kwargs['report'], 'rb')
+        tr = f.read()
+        f.close()
+        report = lxml.etree.fromstring(wfapi.response_body.encode('utf-8'))
+        if hash is None:
+            hash = report.xpath('file_info/sha256/text()')
+            if len(hash) != 0:
+                hash = hash[0].strip()
+            else:
+                hash = None
+    elif 'hash' in kwargs and 'tag' in kwargs and 'debug' in kwargs:
+        import pan.wfapi
 
-    wildfirereport = lxml.etree.fromstring(wfapi.response_body.encode('utf-8'))
-    if wildfirereport.tag != 'wildfire':
-        raise PanWfReportError('invalid root tag in wildfire report: %s'%wildfirereport.tag)
+        # retrieve wildfire report
+        wfapi = pan.wfapi.PanWFapi(debug=kwargs['debug'],
+                                    tag=kwargs['tag'])
+        wfapi.report(hash=kwargs['hash'])
+        if (wfapi.response_body is None):
+            raise PanWfReportError('no report from wildfire')
 
-    if add_pcap is True:
-        pcap = __get_wfpcap_funcgenerator(tag, hash, debug)
+        report = lxml.etree.fromstring(wfapi.response_body.encode('utf-8'))
+    else:
+        raise PanWfReportError('wrong set of arguments to get_malware_subject_from_report')
+
+    if report.tag != 'wildfire':
+        raise PanWfReportError('invalid root tag in wildfire report: %s'%report.tag)
+
+    if 'pcap' in kwargs:
+        p = kwargs['pcap']
+        if p == 'network':
+            if not 'debug' in kwargs or
+                not 'tag' in kwargs:
+                raise PanWfReportError('pcap from network, but no debug or tag specified')
+            pcap = __get_wfpcap_network_funcgenerator(kwargs['tag'], hash, kwargs['debug'])
+        elif isinstance(p, basestring):
+            pcap = __get_wfpcap_file_funcgenerator(p, hash)
+        else:
+            pcap = None
     else:
         pcap = None
-    return get_malware_subject_from_wfreport(wildfirereport, pcap)
 
-
+    return __create_malware_subject_from_report(report, pcap)
