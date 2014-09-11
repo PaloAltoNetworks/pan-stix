@@ -2,7 +2,7 @@
 - python-maec
 - python-cybox
 - python-stix
-- pan-python with wfapi (wildfire branch)
+- pan-python
 - lxml (from python-maec and python-cybox)
 
 ### Usage
