@@ -1,6 +1,7 @@
 # XXX <timeline> in report ?
 
 import time
+import datetime
 import logging
 
 # lxml
@@ -58,7 +59,7 @@ def __handle_process(p, pdict, bundle):
                 action = maecactions.process_create_action(cpa.get('child_pid'), cpa.get('child_process_image'), cpa.get('command'))
 
                 # check and modify process nodes
-                childp = [cp for cp in pnode.spawned_processes if cp.pid == child_pid]
+                childp = [cp for cp in pnode.spawned_process if cp.pid == child_pid]
                 if len(childp) == 0:
                     logging.warning('"create" process activity not included in process_tree %s'%cpa.get('child_pid'))
                 else:
@@ -156,7 +157,8 @@ def __handle_process(p, pdict, bundle):
 def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None):
     # analysis
     wfanalysis = maec.package.analysis.Analysis(method="dynamic", type="triage")
-    wfanalysis.lastupdate_datetime = time.strftime("%Y-%m-%dT%H:%M:%S.000000%Z") # 2014-02-20T09:00:00.000000
+    now = datetime.datetime.utcnow()
+    wfanalysis.lastupdate_datetime = now.strftime("%Y-%m-%dT%H:%M:%S.000000+00:00") # 2014-02-20T09:00:00.000000
 
     # summary with verdict
     wfsummary = "Palo Alto Networks Wildfire dynamic analysis of the malware instance object."
@@ -269,14 +271,15 @@ def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None):
                 wfbundle.add_named_object_collection("Network Traffic")
                 wfbundle.add_object(rao, "Network Traffic")
 
-    wfanalysis.set_findings_bundle(wfbundle.id)
+    wfanalysis.set_findings_bundle(wfbundle.id_)
     csubject.add_analysis(wfanalysis)
     csubject.add_findings_bundle(wfbundle)
 
 def add_static_malware_analysis_from_report(csubject, report, pcap=None):
     # analysis
     wfanalysis = maec.package.analysis.Analysis(method="static", type="triage")
-    wfanalysis.lastupdate_datetime = time.strftime("%Y-%m-%dT%H:%M:%S.000000%Z") # 2014-02-20T09:00:00.000000
+    now = datetime.datetime.utcnow()
+    wfanalysis.lastupdate_datetime = now.strftime("%Y-%m-%dT%H:%M:%S.000000+00:00") # 2014-02-20T09:00:00.000000
 
     # summary with verdict
     wfsummary = "Palo Alto Networks Wildfire static analysis of the malware instance object."
@@ -311,7 +314,7 @@ def add_static_malware_analysis_from_report(csubject, report, pcap=None):
             cb = maec.bundle.behavior.Behavior(description=sentry.text.strip())
             wfbundle.add_behavior(cb)
 
-    wfanalysis.set_findings_bundle(wfbundle.id)
+    wfanalysis.set_findings_bundle(wfbundle.id_)
     csubject.add_analysis(wfanalysis)
     csubject.add_findings_bundle(wfbundle)
 

@@ -9,7 +9,7 @@ import panstix.utils
 import panstix.packaging
 
 def dump_report_to_stix(options):
-    panstix.utils.set_id_namespace("http://wildfire.selfaddress.es/", "wildfire")
+    panstix.utils.set_id_namespace("https://wildfire.paloaltonetworks.com/", "wildfire")
 
     subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'debug', 'tag', 'sample', 'pcap']}
     if 'inreport' in options:

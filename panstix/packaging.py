@@ -21,20 +21,19 @@ def get_stix_package_from_wfreport(**kwargs):
     msl = maec.package.malware_subject.MalwareSubjectList()
     msl.append(ms)
 
-    # move it to stix by generationg and then reparsing XML (aargh !!!)
-    msletree = lxml.etree.fromstring(msl.to_xml(pretty=False)) 
+    maecpackage = maec.package.package.Package()
+    maecpackage.add_malware_subject(ms)
 
     # create TTP
-    mi = stix.extensions.malware.maec_4_1_malware.MAECInstance(msletree)
-    ttp = stix.ttp.TTP()
+    mi = stix.extensions.malware.maec_4_1_malware.MAECInstance(maecpackage)
+    ttp = stix.ttp.TTP(title="%s"%hash, description="Sample "+hash+" Artifacts and Characterization")
     mb = stix.ttp.behavior.Behavior()
     mb.add_malware_instance(mi)
     ttp.behavior = mb
 
     # add TTP to STIX package
     stix_package = stix.core.STIXPackage()
-    stix_header = stix.core.STIXHeader()
-    stix_header.description = "Malware "+hash+" Artifacts and Characterization"
+    stix_header = stix.core.STIXHeader(description="Sample "+hash+" Artifacts and Characterization", title=hash)
     stix_package.stix_header = stix_header
     stix_package.add_ttp(ttp)
 
@@ -55,8 +54,7 @@ def get_stix_package_from_wfreport(**kwargs):
 
         if samplerao is not None:
             i = stix.indicator.Indicator(title="Wildfire sample "+hash)
-            o = cybox.core.Observable()
-            o.description = "Raw artifact object of wildfire sample "+hash
+            o = cybox.core.Observable(description="Raw artifact object of wildfire sample "+hash, title="File "+hash)
             o.object_ = samplerao
             i.add_observable(o)
             i.add_indicated_ttp(stix.ttp.TTP(idref=ttp.id_))

@@ -1,4 +1,5 @@
 import time
+import datetime
 import logging
 
 # lxml
@@ -40,7 +41,8 @@ def add_malware_analysis_from_report(csubject, report, pcap=None):
 
     # analysis
     wfanalysis = maec.package.analysis.Analysis(method="dynamic", type="triage")
-    wfanalysis.lastupdate_datetime = time.strftime("%Y-%m-%dT%H:%M:%S.000000%Z") # 2014-02-20T09:00:00.000000
+    now = datetime.datetime.utcnow()
+    wfanalysis.lastupdate_datetime = now.strftime("%Y-%m-%dT%H:%M:%S.000000+00:00") # 2014-02-20T09:00:00.000000
 
     # summary with verdict
     wfsummary = "Palo Alto Networks Wildfire dynamic analysis of the malware instance object."
@@ -205,6 +207,6 @@ def add_malware_analysis_from_report(csubject, report, pcap=None):
     if pcap is not None:
         logging.info('pcap insertion not supported for wildfire reports v0.1')
 
-    wfanalysis.set_findings_bundle(wfbundle.id)
+    wfanalysis.set_findings_bundle(wfbundle.id_)
     csubject.add_analysis(wfanalysis)
     csubject.add_findings_bundle(wfbundle)

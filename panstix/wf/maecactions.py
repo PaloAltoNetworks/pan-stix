@@ -367,7 +367,7 @@ def service_start_action(name, path):
 def java_api_call_action(api, args):
     action = maec.bundle.malware_action.MalwareAction()
     action.name = "call library function"
-    action.name.xsi_type = 'maecVocabs:LibraryActionNameVocab-1.0'
+    action.name.xsi_type = 'maecVocabs:LibraryActionNameVocab-1.1'
     action.action_arguments = cybox.core.ActionArguments()
     aa = cybox.core.ActionArgument()
     aa.argument_name = "API"
@@ -378,8 +378,7 @@ def java_api_call_action(api, args):
     aa.argument_value = api
     action.action_arguments.append(aa)
     aa = cybox.core.ActionArgument()
-    aa.argument_name = "Parameters"
-    aa.argument_name.xsi_type = "wildfire:ActionArgumentNameVocab-1.0"
+    aa.argument_name = "Options"
     aa.argument_value = args
     action.action_arguments.append(aa)
     return action 
