@@ -1,6 +1,6 @@
 # pan-stix
 
-A package to convert Palo Alto Networks threat information into STIX.
+A package to convert Palo Alto Networks threat information into STIX/MAEC format.
 
 ## Requirements
 
@@ -14,7 +14,14 @@ A package to convert Palo Alto Networks threat information into STIX.
 
 - install required packages (see *Requirements*)
 - configure .panrc with hostname and api of the Wildfire cloud (see <https://github.com/kevinsteves/pan-python/blob/master/doc/pan.xapi.rst> for details)
-- run wildfire-to-stix.py to retrieve Wildfire reports and convert them to STIX format:
+- run wildfire-to-stix.py to retrieve Wildfire reports and convert them to a STIX package:
 
-	wildfire-to-stix.py -t \<.panrc tag\> -h \<sample hash file\> -o \<stix package name\>
+		wildfire-to-stix.py -t <.panrc tag> -h <hash> -o <output name> [--no-pcap] [--no-sample]
 
+- run wildfire-to-stix.py to retrieve Wildfire reports and convert them to a MAEC package:
+
+		wildfire-to-stix.py -t <.panrc tag> -h <hash> -o <output name> -f maec --no-pcap --no-sample
+		
+## Author
+
+Luigi Mori - lmori@paloaltonetworks.com
