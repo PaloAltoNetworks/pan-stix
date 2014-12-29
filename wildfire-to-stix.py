@@ -25,7 +25,7 @@ import panstix.utils
 import panstix.packaging
 
 def dump_report_to_stix(options):
-    panstix.utils.set_id_namespace("https://wildfire.paloaltonetworks.com/", "wildfire")
+    panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
 
     subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'debug', 'tag', 'sample', 'pcap']}
     if 'inreport' in options:
@@ -39,6 +39,21 @@ def dump_report_to_stix(options):
     else:
         sys.stdout.write(sp.to_xml())
 
+def dump_report_to_maec(options):
+    panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
+
+    subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'debug', 'tag', 'sample', 'pcap']}
+    if 'inreport' in options:
+        subargs['report'] = options['inreport']
+
+    mp = panstix.packaging.get_maec_package_from_wfreport(**options)
+    if options['outfile'] is not None:
+        f = open(options['outfile'], 'w')
+        f.write(mp.to_xml())
+        f.close()
+    else:
+        sys.stdout.write(mpp.to_xml())
+
 def parse_opts():
     options = {
         'tag': None,
@@ -51,7 +66,7 @@ def parse_opts():
         'outfile': None
     }
 
-    valid_outfmt = ['stix']
+    valid_outfmt = ['stix', 'maec']
     short_options = 't:Dh:i:o:f:'
     long_options = ['no-pcap', 'no-sample']
 
@@ -121,6 +136,8 @@ def main():
 
     if options['outfmt'] == 'stix':
         dump_report_to_stix(options)
+    elif options['outfmt'] == 'maec':
+        dump_report_to_maec(options)
     else:
         logging.critical('unhandled output format %s'%options['outfmt'])
         sys.exit(1)

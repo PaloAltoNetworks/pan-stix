@@ -18,6 +18,7 @@ import logging
 
 import lxml
 
+import maec.package.package
 import maec.package.malware_subject
 import stix.extensions.malware.maec_4_1_malware
 import stix.ttp
@@ -26,6 +27,21 @@ import stix.indicator
 
 from .exceptions import PanStixError
 from . import wf
+
+def get_maec_package_from_wfreport(**kwargs):
+    # get malware subject from wf submodule
+    subargs = {k: v for k,v in kwargs.iteritems() if k in ['hash', 'tag', 'debug', 'report', 'pcap']}
+    ms = wf.get_malware_subject_from_report(**subargs)
+    hash = ms.malware_instance_object_attributes.properties.hashes.sha256
+
+    # put it in a malwaresubjectlist
+    msl = maec.package.malware_subject.MalwareSubjectList()
+    msl.append(ms)
+
+    maecpackage = maec.package.package.Package()
+    maecpackage.add_malware_subject(ms)
+
+    return maecpackage
 
 def get_stix_package_from_wfreport(**kwargs):
     # get malware subject from wf submodule

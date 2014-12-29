@@ -218,7 +218,7 @@ def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None):
             edesc = sentry.text.strip()
             if sentry.get('details') is not None:
                 edesc += " Details: "+sentry.get('details').strip()
-            cb = maec.bundle.behavior.Behavior(description=sentry.text.strip()+"Details: ")
+            cb = maec.bundle.behavior.Behavior(description=edesc)
             wfbundle.add_behavior(cb)
 
     # process_tree
