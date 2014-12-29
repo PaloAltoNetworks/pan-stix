@@ -1,0 +1,796 @@
+<stix:STIX_Package 
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:MutexObj="http://cybox.mitre.org/objects#MutexObject-2"
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4"
+	xmlns:maecPackage="http://maec.mitre.org/XMLSchema/maec-package-2"
+	xmlns:maecVocabs="http://maec.mitre.org/default_vocabularies-1"
+	xmlns:ttp="http://stix.mitre.org/TTP-1"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:stix-maec="http://stix.mitre.org/extensions/Malware#MAEC4.1-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:pan-stix="https://github.com/PaloAltoNetworks-BD/pan-stix"
+	xsi:schemaLocation="
+	http://cybox.mitre.org/common-2 http://cybox.mitre.org/XMLSchema/common/2.1/cybox_common.xsd
+	http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.1/cybox_core.xsd
+	http://cybox.mitre.org/default_vocabularies-2 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.1/cybox_default_vocabularies.xsd
+	http://cybox.mitre.org/objects#FileObject-2 http://cybox.mitre.org/XMLSchema/objects/File/2.1/File_Object.xsd
+	http://cybox.mitre.org/objects#MutexObject-2 http://cybox.mitre.org/XMLSchema/objects/Mutex/2.1/Mutex_Object.xsd
+	http://cybox.mitre.org/objects#ProcessObject-2 http://cybox.mitre.org/XMLSchema/objects/Process/2.1/Process_Object.xsd
+	http://cybox.mitre.org/objects#WinRegistryKeyObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Registry_Key/2.1/Win_Registry_Key_Object.xsd
+	http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.1/maec_bundle_schema.xsd
+	http://maec.mitre.org/XMLSchema/maec-package-2 http://maec.mitre.org/language/version4.1/maec_package_schema.xsd
+	http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.1/maec_default_vocabularies.xsd
+	http://stix.mitre.org/TTP-1 http://stix.mitre.org/XMLSchema/ttp/1.1.1/ttp.xsd
+	http://stix.mitre.org/common-1 http://stix.mitre.org/XMLSchema/common/1.1.1/stix_common.xsd
+	http://stix.mitre.org/default_vocabularies-1 http://stix.mitre.org/XMLSchema/default_vocabularies/1.1.1/stix_default_vocabularies.xsd
+	http://stix.mitre.org/extensions/Malware#MAEC4.1-1 http://stix.mitre.org/XMLSchema/extensions/malware/maec_4.1/1.0.1/maec_4.1_malware.xsd
+	http://stix.mitre.org/stix-1 http://stix.mitre.org/XMLSchema/core/1.1.1/stix_core.xsd" id="pan-stix:Package-590808f7-286e-4cab-9a75-2b3cb9010408" version="1.1.1" timestamp="2014-12-29T10:49:54.544383+00:00">
+    <stix:STIX_Header>
+        <stix:Title>d436eb0f025deb07719ecb98ddfc16dcbfed9d3045669d6d36f904dd7c761123</stix:Title>
+        <stix:Description>Sample d436eb0f025deb07719ecb98ddfc16dcbfed9d3045669d6d36f904dd7c761123 Artifacts and Characterization</stix:Description>
+    </stix:STIX_Header>
+    <stix:TTPs>
+        <stix:TTP id="pan-stix:ttp-baae6d24-fc45-4c62-8c80-56222a4bf0ca" timestamp="2014-12-29T10:49:54.544261+00:00" xsi:type='ttp:TTPType'>
+            <ttp:Title>d436eb0f025deb07719ecb98ddfc16dcbfed9d3045669d6d36f904dd7c761123</ttp:Title>
+            <ttp:Description>Sample d436eb0f025deb07719ecb98ddfc16dcbfed9d3045669d6d36f904dd7c761123 Artifacts and Characterization</ttp:Description>
+            <ttp:Behavior>
+                <ttp:Malware>
+                    <ttp:Malware_Instance xsi:type='stix-maec:MAEC4.1InstanceType'>
+                        <stix-maec:MAEC id="wildfire:package-9d9df03c-bac2-49c9-a93e-d63ae70eddd8" schema_version="2.1">
+                            <maecPackage:Malware_Subjects>
+                                <maecPackage:Malware_Subject id="wildfire:malware_subject-a8454cfe-eab9-49a9-977a-3fc7929379b2">
+                                    <maecPackage:Malware_Instance_Object_Attributes id="wildfire:Object-896f8935-f4ee-47fc-b0aa-4a7448100fd3">
+                                        <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                            <FileObj:File_Name>sample.exe</FileObj:File_Name>
+                                            <FileObj:Size_In_Bytes>44544</FileObj:Size_In_Bytes>
+                                            <FileObj:File_Format>DLL</FileObj:File_Format>
+                                            <FileObj:Hashes>
+                                                <cyboxCommon:Hash>
+                                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+                                                    <cyboxCommon:Simple_Hash_Value>e3a02c96d2c7e61a74cb8bd6e63d130dfe98ce95</cyboxCommon:Simple_Hash_Value>
+                                                </cyboxCommon:Hash>
+                                                <cyboxCommon:Hash>
+                                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                                    <cyboxCommon:Simple_Hash_Value>d436eb0f025deb07719ecb98ddfc16dcbfed9d3045669d6d36f904dd7c761123</cyboxCommon:Simple_Hash_Value>
+                                                </cyboxCommon:Hash>
+                                                <cyboxCommon:Hash>
+                                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                                    <cyboxCommon:Simple_Hash_Value>faab06832712f6d877baacfe1f96fe15</cyboxCommon:Simple_Hash_Value>
+                                                </cyboxCommon:Hash>
+                                            </FileObj:Hashes>
+                                        </cybox:Properties>
+                                    </maecPackage:Malware_Instance_Object_Attributes>
+                                    <maecPackage:Analyses>
+                                        <maecPackage:Analysis method="dynamic" lastupdate_datetime="2014-12-29T10:49:54.000000+00:00" type="triage" id="wildfire:analysis-5be05cc4-42a8-48ba-afbc-345d7dc495ab">
+                                            <maecPackage:Summary>Palo Alto Networks Wildfire dynamic analysis of the malware instance object. Software: Windows XP, Adobe Reader 9.4.0, Flash 10, Office 2007. Malware: yes</maecPackage:Summary>
+                                            <maecPackage:Findings_Bundle_Reference bundle_idref="wildfire:bundle-10b4a276-3b0b-4cc9-8ff2-ed4f101aa7cc"/>
+                                            <maecPackage:Tools>
+                                                <maecPackage:Tool>
+                                                    <cyboxCommon:Name>Palo Alto Networks Wildfire</cyboxCommon:Name>
+                                                    <cyboxCommon:Vendor>http://www.paloaltonetworks.com</cyboxCommon:Vendor>
+                                                    <cyboxCommon:Version>3.0</cyboxCommon:Version>
+                                                </maecPackage:Tool>
+                                            </maecPackage:Tools>
+                                        </maecPackage:Analysis>
+                                        <maecPackage:Analysis method="dynamic" lastupdate_datetime="2014-12-29T10:49:54.000000+00:00" type="triage" id="wildfire:analysis-2dafc0fb-5f47-45d4-a985-9bc7346df8ba">
+                                            <maecPackage:Summary>Palo Alto Networks Wildfire dynamic analysis of the malware instance object. Software: Windows 7 x64 SP1, Adobe Reader 11, Flash 11, Office 2010. Malware: yes</maecPackage:Summary>
+                                            <maecPackage:Findings_Bundle_Reference bundle_idref="wildfire:bundle-7a16667c-0a78-4302-b138-ff8206c7af2e"/>
+                                            <maecPackage:Tools>
+                                                <maecPackage:Tool>
+                                                    <cyboxCommon:Name>Palo Alto Networks Wildfire</cyboxCommon:Name>
+                                                    <cyboxCommon:Vendor>http://www.paloaltonetworks.com</cyboxCommon:Vendor>
+                                                    <cyboxCommon:Version>3.0</cyboxCommon:Version>
+                                                </maecPackage:Tool>
+                                            </maecPackage:Tools>
+                                        </maecPackage:Analysis>
+                                    </maecPackage:Analyses>
+                                    <maecPackage:Findings_Bundles>
+                                        <maecPackage:Bundle defined_subject="false" id="wildfire:bundle-10b4a276-3b0b-4cc9-8ff2-ed4f101aa7cc" schema_version="4.1">
+                                            <maecBundle:Process_Tree>
+                                                <maecBundle:Root_Process xsi:type="maecBundle:ProcessTreeNodeType" id="wildfire:process_tree-0d6cb6c4-e230-43da-94f6-ed05f3323d6b">
+                                                    <ProcessObj:Name>Fake Root Process</ProcessObj:Name>
+                                                    <maecBundle:Spawned_Process xsi:type="maecBundle:ProcessTreeNodeType" id="wildfire:process_tree-000b5d28-e5bd-4fae-81b9-5e5a4f4a8a9a">
+                                                        <ProcessObj:PID>1764</ProcessObj:PID>
+                                                        <ProcessObj:Name>c:\documents and settings\administrator\sample.dll</ProcessObj:Name>
+                                                        <ProcessObj:Image_Info>
+                                                            <ProcessObj:File_Name>LoadLibrary c:\documents and settings\administrator\sample.dll</ProcessObj:File_Name>
+                                                        </ProcessObj:Image_Info>
+                                                    </maecBundle:Spawned_Process>
+                                                    <maecBundle:Spawned_Process xsi:type="maecBundle:ProcessTreeNodeType" id="wildfire:process_tree-26d1ea00-ac0d-429e-965c-23b148de2785">
+                                                        <ProcessObj:PID>1848</ProcessObj:PID>
+                                                        <ProcessObj:Name>c:\documents and settings\administrator\sample.dll:MakeCache</ProcessObj:Name>
+                                                        <ProcessObj:Image_Info>
+                                                            <ProcessObj:File_Name>LoadLibrary c:\documents and settings\administrator\sample.dll:MakeCache</ProcessObj:File_Name>
+                                                        </ProcessObj:Image_Info>
+                                                        <maecBundle:Initiated_Actions>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-1d5a1157-8c92-4206-82fa-a4d2d208bba0"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-0d1766b6-e9ce-4971-a9cb-43ead3c0315d"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-46f9f6f6-ad29-46e3-a7f4-2d038fe83387"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-2f13b0e9-3bbe-47d4-9c36-30d13b44c028"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-1cf7f6d5-a32d-42ea-84ae-a531305492d9"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-50556da4-3829-474c-87ad-83399cbc0b77"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-8800d6a7-2eb2-47bd-a7f4-fe1bf8b60bfc"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-35553c8c-9a77-423c-b055-96b43b714834"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-17e332e7-16c3-46b5-9ec1-3fa6b7c55e3e"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-5a98c310-29a8-414a-b3f1-8c78a9ecf137"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-cdb1ef42-2c3a-40bb-b2af-3c68c6f2cb39"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-6b428215-addc-4ed4-96c2-616bb882cd2f"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-a580f988-6852-4c9f-b226-2af06c75f566"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-056fc0ec-0dd9-48eb-bbc3-f3aad6ac2542"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-f7dda446-4e8d-4115-b35b-075d36758a0f"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-a92ef6a8-1820-46a4-b55f-d4c5dae8efbc"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-43589d93-62b4-4b1b-993c-e9a5914902c2"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-5554d732-56e9-423c-bb46-c7f8cefc2ebb"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-ce038546-5df1-4f7c-83b8-e0d79901127e"/>
+                                                        </maecBundle:Initiated_Actions>
+                                                    </maecBundle:Spawned_Process>
+                                                </maecBundle:Root_Process>
+                                            </maecBundle:Process_Tree>
+                                            <maecBundle:Behaviors>
+                                                <maecBundle:Behavior id="wildfire:behavior-6c58e78c-c0bf-455c-9766-a952a64425a5">
+                                                    <maecBundle:Description>Created a file in the Windows folder Details: The Windows folder contains the core components of the Windows operating system. Malware often modifies the contents of this folder to manipulate the system, establish persistence, and avoid detection.</maecBundle:Description>
+                                                </maecBundle:Behavior>
+                                                <maecBundle:Behavior id="wildfire:behavior-8e955ee6-39e6-4457-98f7-bec58799601a">
+                                                    <maecBundle:Description>Created or modified a file Details: Legitimate software creates or modifies files to preserve data across system restarts. Malware may create or modify files to deliver malicious payloads or maintain persistence on a system.</maecBundle:Description>
+                                                </maecBundle:Behavior>
+                                                <maecBundle:Behavior id="wildfire:behavior-9ffb16c2-5f7a-46a6-bef9-ba77cbff8812">
+                                                    <maecBundle:Description>Started a process from a user folder Details: User folders are storage locations for music, pictures, downloads, and other user-specific files. Malware often runs executable content out of these folders to avoid detection, while legitimate applications are usually run out of the Windows, Windows system, or Program Files folders.</maecBundle:Description>
+                                                </maecBundle:Behavior>
+                                                <maecBundle:Behavior id="wildfire:behavior-e62c7997-b3f3-421f-ad87-3a78fa7d793f">
+                                                    <maecBundle:Description>Disabled Internet Explorer Phishing Filter Details: Internet Explorer provides a variety of security controls that are effective at mitigating or preventing malicious activity, including a Phishing Filter. Malware often disables the Phishing Filter so that users are not alerted when visiting known malicious websites.</maecBundle:Description>
+                                                </maecBundle:Behavior>
+                                                <maecBundle:Behavior id="wildfire:behavior-5e6de950-bf5d-40a2-9c62-36c82755e966">
+                                                    <maecBundle:Description>Modified the Windows Registry Details: The Windows Registry houses system configuration settings and options, including information about installed applications, services, and drivers. Malware often modifies registry data to establish persistence on the system and avoid detection.</maecBundle:Description>
+                                                </maecBundle:Behavior>
+                                                <maecBundle:Behavior id="wildfire:behavior-395c97ef-a392-4a7e-91f0-093f3c06911f">
+                                                    <maecBundle:Description>Attempted to sleep for a long period Details: Malware analysis environments have a limited amount of time in which to execute code and deliver a verdict. To subvert this process, malware often delays execution, or "sleeps," for a long period, allowing it to avoid detection.</maecBundle:Description>
+                                                </maecBundle:Behavior>
+                                            </maecBundle:Behaviors>
+                                            <maecBundle:Collections>
+                                                <maecBundle:Action_Collections>
+                                                    <maecBundle:Action_Collection name="Registry Activity" id="wildfire:action_collection-7100d2a5-d8ac-4154-aab0-ebeb91d6186c">
+                                                        <maecBundle:Action_List>
+                                                            <maecBundle:Action id="wildfire:action-1d5a1157-8c92-4206-82fa-a4d2d208bba0">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-d320d44a-85df-41d8-836f-175c1df39e65">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-0d1766b6-e9ce-4971-a9cb-43ead3c0315d">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-eb7b983a-1f7f-43eb-9fe7-c806c36d7970">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-46f9f6f6-ad29-46e3-a7f4-2d038fe83387">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-7f59db35-0671-4092-b471-b94e00d03f77">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Internet Explorer\InformationBar</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-2f13b0e9-3bbe-47d4-9c36-30d13b44c028">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-fd6bcd6f-1c38-45fd-96e6-4822fd05bc8f">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Internet Explorer\PhishingFilter</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-1cf7f6d5-a32d-42ea-84ae-a531305492d9">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-d29810d2-74f2-4cdd-9b4c-da5668cb3dd1">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Internet Explorer\TabbedBrowsing</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-50556da4-3829-474c-87ad-83399cbc0b77">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-b4771e62-a214-4eba-baa9-bb8e14dfd261">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Internet Explorer\Recovery</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-8800d6a7-2eb2-47bd-a7f4-fe1bf8b60bfc">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-ccd17247-0b84-4420-8baa-341b210e3811">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-35553c8c-9a77-423c-b055-96b43b714834">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-7c027e72-a2fd-4e57-8aa3-9425f4787aaf">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>Local AppData</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>C:\Documents and Settings\Administrator\Local Settings\Application Data</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-17e332e7-16c3-46b5-9ec1-3fa6b7c55e3e">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-5c3a59a7-c3c4-4042-b186-dddc5e26ff2b">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>Check_Associations</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>no</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-5a98c310-29a8-414a-b3f1-8c78a9ecf137">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-ef0b9ffe-7bcf-4512-af43-0a5149e9af2e">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Internet Explorer\InformationBar</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>FirstTime</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-cdb1ef42-2c3a-40bb-b2af-3c68c6f2cb39">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-9599a1bb-ecc3-4f90-af41-9828d679a93e">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Internet Explorer\New Windows</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>PopupMgr</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>no</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-6b428215-addc-4ed4-96c2-616bb882cd2f">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-c2418894-8645-4fab-bec9-0d26a9385f3f">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Internet Explorer\PhishingFilter</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>Enabled</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-a580f988-6852-4c9f-b226-2af06c75f566">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-5e7584bf-2bf4-41d7-9d2e-6a52ca1c23e7">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Cache</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>Persistent</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-056fc0ec-0dd9-48eb-bbc3-f3aad6ac2542">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-52b96167-aa73-4130-8c66-0fded2b0134a">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Internet Explorer\TabbedBrowsing</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>WarnOnClose</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-f7dda446-4e8d-4115-b35b-075d36758a0f">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-dc22350f-9843-4cff-8802-ac8feb39d91f">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Internet Explorer\TabbedBrowsing</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>WarnOnCloseAdvanced</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-a92ef6a8-1820-46a4-b55f-d4c5dae8efbc">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-81df8e55-cc7b-48a1-9e90-281b96245df2">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>DisableFirstRunCustomize</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>1</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-43589d93-62b4-4b1b-993c-e9a5914902c2">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-a80ad62d-5752-4525-bd7d-e1a77c3851fd">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Internet Explorer\Recovery</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>NoReopenLastSession</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>1</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-5554d732-56e9-423c-bb46-c7f8cefc2ebb">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-c63d4d1d-f47e-462b-8f62-44f06e4d39b2">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-2052111302-1214440339-682003330-500\Software\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>NoProtectedModeBanner</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>1</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                        </maecBundle:Action_List>
+                                                    </maecBundle:Action_Collection>
+                                                    <maecBundle:Action_Collection name="Mutex Activity" id="wildfire:action_collection-9aabf1d6-2ac6-4268-a615-0e238ced1baa">
+                                                        <maecBundle:Action_List>
+                                                            <maecBundle:Action id="wildfire:action-ce038546-5df1-4f7c-83b8-e0d79901127e">
+                                                                <cybox:Name xsi:type="maecVocabs:SynchronizationActionNameVocab-1.0">create mutex</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-07452db0-bd8b-4876-a34e-6200018c809d">
+                                                                        <cybox:Properties xsi:type="MutexObj:MutexObjectType">
+                                                                            <MutexObj:Name>{CD56173D-1A7D-4E99-8109-A71BB04263DF}</MutexObj:Name>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                        </maecBundle:Action_List>
+                                                    </maecBundle:Action_Collection>
+                                                </maecBundle:Action_Collections>
+                                            </maecBundle:Collections>
+                                        </maecPackage:Bundle>
+                                        <maecPackage:Bundle defined_subject="false" id="wildfire:bundle-7a16667c-0a78-4302-b138-ff8206c7af2e" schema_version="4.1">
+                                            <maecBundle:Process_Tree>
+                                                <maecBundle:Root_Process xsi:type="maecBundle:ProcessTreeNodeType" id="wildfire:process_tree-94acd0d2-4418-4837-9f26-277620e3061e">
+                                                    <ProcessObj:Name>Fake Root Process</ProcessObj:Name>
+                                                    <maecBundle:Spawned_Process xsi:type="maecBundle:ProcessTreeNodeType" id="wildfire:process_tree-f03b26c7-54ad-47f8-8d65-33390cba0f13">
+                                                        <ProcessObj:PID>1244</ProcessObj:PID>
+                                                        <ProcessObj:Name>c:\users\administrator\sample.dll</ProcessObj:Name>
+                                                        <ProcessObj:Image_Info>
+                                                            <ProcessObj:File_Name>LoadLibrary c:\users\administrator\sample.dll</ProcessObj:File_Name>
+                                                        </ProcessObj:Image_Info>
+                                                    </maecBundle:Spawned_Process>
+                                                    <maecBundle:Spawned_Process xsi:type="maecBundle:ProcessTreeNodeType" id="wildfire:process_tree-d8ad5d07-f1c0-45b2-9126-27375703524e">
+                                                        <ProcessObj:PID>1364</ProcessObj:PID>
+                                                        <ProcessObj:Name>c:\users\administrator\sample.dll:MakeCache</ProcessObj:Name>
+                                                        <ProcessObj:Image_Info>
+                                                            <ProcessObj:File_Name>LoadLibrary c:\users\administrator\sample.dll:MakeCache</ProcessObj:File_Name>
+                                                        </ProcessObj:Image_Info>
+                                                        <maecBundle:Initiated_Actions>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-898bb499-26e5-463b-86d3-faf1b1e37e26"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-0b3cb84e-ad6a-4fca-8360-711711d620f7"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-42628001-f15c-49a8-a08b-25f7f593c6c4"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-46efea50-57ca-47f0-b9d6-6aa741c49a5b"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-b4bba4ae-29f6-4eef-bdea-bd70eed61fe9"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-dd6232ca-c31a-4cdc-84b8-ff4efa22828f"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-b6648196-a582-49a2-ac8a-701811470fbc"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-553484dc-e32d-4d05-97f8-a4e0d2bd33a2"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-c2d97d36-7992-4170-b9f3-23e9560698b9"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-1153d6ae-10f3-401f-a00c-bb65e1fe0ac6"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-a8ce9870-2042-4b66-bbfe-1264b95c4b9f"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-1b63c031-02c3-4286-bccd-e3ef8495598c"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-d5b0680d-312c-4ebd-8712-db10e9409920"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-43e43b75-cdb4-4c76-a353-9575f6c1d1b0"/>
+                                                            <maecBundle:Action_Reference action_id="wildfire:action-f178be1e-fe71-46ed-a7b2-1a8c42a8f049"/>
+                                                        </maecBundle:Initiated_Actions>
+                                                    </maecBundle:Spawned_Process>
+                                                </maecBundle:Root_Process>
+                                            </maecBundle:Process_Tree>
+                                            <maecBundle:Behaviors>
+                                                <maecBundle:Behavior id="wildfire:behavior-e55d0736-7242-4d46-b806-3d279b3ae778">
+                                                    <maecBundle:Description>Attempted to sleep for a long period Details: Malware analysis environments have a limited amount of time in which to execute code and deliver a verdict. To subvert this process, malware often delays execution, or "sleeps," for a long period, allowing it to avoid detection.</maecBundle:Description>
+                                                </maecBundle:Behavior>
+                                                <maecBundle:Behavior id="wildfire:behavior-8fbbcd78-1c39-4491-81dc-af22ee987f71">
+                                                    <maecBundle:Description>Disabled Internet Explorer Phishing Filter Details: Internet Explorer provides a variety of security controls that are effective at mitigating or preventing malicious activity, including a Phishing Filter. Malware often disables the Phishing Filter so that users are not alerted when visiting known malicious websites.</maecBundle:Description>
+                                                </maecBundle:Behavior>
+                                                <maecBundle:Behavior id="wildfire:behavior-c85fb284-30a5-48c8-a52d-ac667945abe3">
+                                                    <maecBundle:Description>Modified the Windows Registry Details: The Windows Registry houses system configuration settings and options, including information about installed applications, services, and drivers. Malware often modifies registry data to establish persistence on the system and avoid detection.</maecBundle:Description>
+                                                </maecBundle:Behavior>
+                                            </maecBundle:Behaviors>
+                                            <maecBundle:Collections>
+                                                <maecBundle:Action_Collections>
+                                                    <maecBundle:Action_Collection name="Registry Activity" id="wildfire:action_collection-72b91675-b199-486c-b46b-2858d46b1350">
+                                                        <maecBundle:Action_List>
+                                                            <maecBundle:Action id="wildfire:action-898bb499-26e5-463b-86d3-faf1b1e37e26">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-5faaf0d3-487d-411d-93c7-b82dff24f8cb">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Internet Explorer\InformationBar</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-0b3cb84e-ad6a-4fca-8360-711711d620f7">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-a46077fa-9f13-4fec-90de-ecf860802a1b">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Internet Explorer\TabbedBrowsing</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-42628001-f15c-49a8-a08b-25f7f593c6c4">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-d7951bad-a3c5-422c-b241-bc9521b6d67a">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Windows\CurrentVersion\Group Policy Objects\{BD0C5922-87BF-4BA1-8C74-F53AF43D27B2}Machine\Software\Policies\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-46efea50-57ca-47f0-b9d6-6aa741c49a5b">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">create registry key</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-d46d5ad5-aaea-48de-8878-adb5baee5a41">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>HKEY_CURRENT_USER</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Subkeys>
+                                                                                <WinRegistryKeyObj:Subkey xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                    <WinRegistryKeyObj:Key>Software\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                                </WinRegistryKeyObj:Subkey>
+                                                                            </WinRegistryKeyObj:Subkeys>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">output</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-b4bba4ae-29f6-4eef-bdea-bd70eed61fe9">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-cd27ba4f-6ec1-4ee7-a78a-eeb72b607316">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>Check_Associations</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>no</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-dd6232ca-c31a-4cdc-84b8-ff4efa22828f">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-b3d1b89c-10d6-4ef9-a91e-2bf9d7d9d0ec">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Internet Explorer\InformationBar</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>FirstTime</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-b6648196-a582-49a2-ac8a-701811470fbc">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-e6f3fa53-a831-4f45-a8a7-99b73f333f7b">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Internet Explorer\New Windows</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>PopupMgr</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>no</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-553484dc-e32d-4d05-97f8-a4e0d2bd33a2">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-5014a028-15f5-48c1-8a40-ecf687a858e3">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Internet Explorer\PhishingFilter</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>Enabled</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-c2d97d36-7992-4170-b9f3-23e9560698b9">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-c107f8a6-226e-40b1-a3c4-d6ccadc4aad8">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Internet Settings\Cache</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>Persistent</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-1153d6ae-10f3-401f-a00c-bb65e1fe0ac6">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-8c35ce7a-3c23-4f12-9bc0-b64caeeb0488">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Internet Explorer\TabbedBrowsing</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>WarnOnClose</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-a8ce9870-2042-4b66-bbfe-1264b95c4b9f">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-12119a22-c138-4ab1-a268-c22adf9f8050">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Internet Explorer\TabbedBrowsing</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>WarnOnCloseAdvanced</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-1b63c031-02c3-4286-bccd-e3ef8495598c">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-be55a565-f932-4515-b81e-4d8763faa44c">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Windows\CurrentVersion\Group Policy Objects\{BD0C5922-87BF-4BA1-8C74-F53AF43D27B2}Machine\Software\Policies\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>**del.DisableFirstRunCustomize</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>0??????????????????4??????n??????????????????????????????\???e?????c</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-d5b0680d-312c-4ebd-8712-db10e9409920">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-dbb7f268-fa66-40b8-9b8a-75a965e07399">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>DisableFirstRunCustomize</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>1</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-43e43b75-cdb4-4c76-a353-9575f6c1d1b0">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-25fd2c41-80a0-46e0-854a-712012d3e676">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Internet Explorer\Recovery</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>NoReopenLastSession</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>1</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                            <maecBundle:Action id="wildfire:action-f178be1e-fe71-46ed-a7b2-1a8c42a8f049">
+                                                                <cybox:Name xsi:type="maecVocabs:RegistryActionNameVocab-1.0">modify registry key value</cybox:Name>
+                                                                <cybox:Associated_Objects>
+                                                                    <cybox:Associated_Object id="wildfire:Object-f9125860-5de1-47cf-8ab2-7504d69c52ad">
+                                                                        <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                            <WinRegistryKeyObj:Key>\REGISTRY\USER\S-1-5-21-3141258405-581381896-389432370-500\Software\Microsoft\Internet Explorer\Main</WinRegistryKeyObj:Key>
+                                                                            <WinRegistryKeyObj:Values>
+                                                                                <WinRegistryKeyObj:Value>
+                                                                                    <WinRegistryKeyObj:Name>NoProtectedModeBanner</WinRegistryKeyObj:Name>
+                                                                                    <WinRegistryKeyObj:Data>1</WinRegistryKeyObj:Data>
+                                                                                </WinRegistryKeyObj:Value>
+                                                                            </WinRegistryKeyObj:Values>
+                                                                        </cybox:Properties>
+                                                                        <cybox:Association_Type xsi:type="maecVocabs:ActionObjectAssociationTypeVocab-1.0">input</cybox:Association_Type>
+                                                                    </cybox:Associated_Object>
+                                                                </cybox:Associated_Objects>
+                                                            </maecBundle:Action>
+                                                        </maecBundle:Action_List>
+                                                    </maecBundle:Action_Collection>
+                                                </maecBundle:Action_Collections>
+                                            </maecBundle:Collections>
+                                        </maecPackage:Bundle>
+                                    </maecPackage:Findings_Bundles>
+                                </maecPackage:Malware_Subject>
+                            </maecPackage:Malware_Subjects>
+                        </stix-maec:MAEC>
+                    </ttp:Malware_Instance>
+                </ttp:Malware>
+            </ttp:Behavior>
+        </stix:TTP>
+    </stix:TTPs>
+</stix:STIX_Package>
