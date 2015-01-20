@@ -27,14 +27,13 @@ def get_raw_artifact_from_sample(sample):
 
     return rao
 
-def get_raw_artifact_from_sample_hash(tag, hash, debug):
+def get_raw_artifact_from_sample_hash(tag, hash):
     import pan.wfapi
 
     logging.info("Retrieving sample for hash %s"%hash)
 
     try:
-        wfapi = pan.wfapi.PanWFapi(debug=debug,
-                                   tag=tag)
+        wfapi = pan.wfapi.PanWFapi(tag=tag)
     except pan.wfapi.PanWFapiError as msg:
         logging.error('pan.wfapi.PanWFapi: %s'%msg)
         return None

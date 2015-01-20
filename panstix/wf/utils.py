@@ -115,11 +115,11 @@ def __create_malware_subject_from_report(wfreport, pcap=None):
 
     return csubject
 
-def __get_wfpcap_network_funcgenerator(tag, hash, debug):
+def __get_wfpcap_network_funcgenerator(tag, hash):
     import pan.wfapi
 
     def __get_wfpcap(platform=None):
-        return pcap.get_raw_artifact_from_pcap_hash(tag, hash, debug, platform)
+        return pcap.get_raw_artifact_from_pcap_hash(tag, hash, platform)
 
     return __get_wfpcap
 
@@ -153,13 +153,11 @@ def get_malware_subject_from_report(**kwargs):
             else:
                 hash = None
     elif 'hash' in kwargs and \
-        'tag' in kwargs and \
-        'debug' in kwargs:
+        'tag' in kwargs:
         import pan.wfapi
 
         # retrieve wildfire report
-        wfapi = pan.wfapi.PanWFapi(debug=kwargs['debug'],
-                                    tag=kwargs['tag'])
+        wfapi = pan.wfapi.PanWFapi(tag=kwargs['tag'])
         wfapi.report(hash=kwargs['hash'])
         if (wfapi.response_body is None):
             raise PanWfReportError('no report from wildfire')
@@ -174,10 +172,9 @@ def get_malware_subject_from_report(**kwargs):
     if 'pcap' in kwargs:
         p = kwargs['pcap']
         if p == 'network':
-            if not 'debug' in kwargs or \
-                not 'tag' in kwargs:
-                raise PanWfReportError('pcap from network, but no debug or tag specified')
-            pcap = __get_wfpcap_network_funcgenerator(kwargs['tag'], hash, kwargs['debug'])
+            if not 'tag' in kwargs:
+                raise PanWfReportError('pcap from network, but no tag specified')
+            pcap = __get_wfpcap_network_funcgenerator(kwargs['tag'], hash)
         elif isinstance(p, basestring):
             pcap = __get_wfpcap_file_funcgenerator(p, hash)
         else:

@@ -17,6 +17,7 @@
 import sys
 import getopt
 import logging
+import pan.xapi
 
 import datetime
 import dateutil.tz
@@ -24,10 +25,25 @@ import dateutil.tz
 import panstix.utils
 import panstix.packaging
 
+def _set_logging_debug(options):
+    if options['debug']:
+        logger = logging.getLogger()
+        if options['debug'] == 3:
+            logger.setLevel(pan.xapi.DEBUG3)
+        elif options['debug'] == 2:
+            logger.setLevel(pan.xapi.DEBUG2)
+        elif options['debug'] == 1:
+            logger.setLevel(pan.xapi.DEBUG1)
+    
+        handler = logging.StreamHandler()
+        logger.addHandler(handler)
+
 def dump_report_to_stix(options):
     panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
 
-    subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'debug', 'tag', 'sample', 'pcap']}
+    _set_logging_debug(options)
+
+    subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'tag', 'sample', 'pcap']}
     if 'inreport' in options:
         subargs['report'] = options['inreport']
 
@@ -42,7 +58,9 @@ def dump_report_to_stix(options):
 def dump_report_to_maec(options):
     panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
 
-    subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'debug', 'tag', 'sample', 'pcap']}
+    _set_logging_debug(options)
+
+    subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'tag', 'sample', 'pcap']}
     if 'inreport' in options:
         subargs['report'] = options['inreport']
 

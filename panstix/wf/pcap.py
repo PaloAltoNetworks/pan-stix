@@ -27,13 +27,13 @@ def get_raw_artifact_from_pcap(pcap):
 
     return rao    
 
-def get_raw_artifact_from_pcap_hash(tag, hash, debug, platform=None):
+def get_raw_artifact_from_pcap_hash(tag, hash, platform=None):
     import pan.wfapi
 
     logging.info("Retrieving pcap for hash %s/platform %s"%(hash, (platform if platform is not None else '')))
 
     try:
-        wfapi = pan.wfapi.PanWFapi(debug=debug, tag=tag)
+        wfapi = pan.wfapi.PanWFapi(tag=tag)
     except pan.wfapi.PanWFapi as msg:
         logging.error('pan.wfapi.PanWFapi: %s'%msg)
         return None
