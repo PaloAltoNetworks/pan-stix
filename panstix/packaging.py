@@ -27,7 +27,6 @@ import stix.indicator
 
 from .exceptions import PanStixError
 from . import wf
-from . import threat
 
 def get_stix_package_from_threat(t):
     stix_package = stix.core.STIXPackage()
