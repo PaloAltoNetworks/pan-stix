@@ -145,7 +145,7 @@ def get_malware_subject_from_report(**kwargs):
         f = open(kwargs['report'], 'rb')
         tr = f.read()
         f.close()
-        report = lxml.etree.fromstring(wfapi.response_body.encode('utf-8'))
+        report = lxml.etree.fromstring(tr)
         if hash is None:
             hash = report.xpath('file_info/sha256/text()')
             if len(hash) != 0:

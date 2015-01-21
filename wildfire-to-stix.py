@@ -79,7 +79,7 @@ def parse_opts():
         'hash': None,
         'pcap': 'network',
         'sample': 'network',
-        'inreport': None,
+        'report': None,
         'outfmt': 'stix',
         'outfile': None
     }
@@ -105,8 +105,8 @@ def parse_opts():
                 sys.exit(1)
             options['debug'] += 1
         elif opt == '-h':
-            if options['inreport'] is not None:
-                logging.critical('only one of inreport or hash should be specified', file=sys.stderr)
+            if options['report'] is not None:
+                logging.critical('only one of report or hash should be specified', file=sys.stderr)
                 sys.exit(1)
             options['hash'] = arg
         elif opt == '--no-pcap':
@@ -115,9 +115,9 @@ def parse_opts():
             options['sample'] = False
         elif opt == '-i':
             if options['hash'] is not None:
-                logging.critical('only one of inreport or hash should be specified', file=sys.stderr)
+                logging.critical('only one of report or hash should be specified', file=sys.stderr)
                 sys.exit(1)                
-            options['inreport'] = arg
+            options['report'] = arg
         elif opt == '-f':
             if not arg in valid_outfmt:
                 logging.critical('invalid output format', file=sys.stderr)
@@ -129,8 +129,8 @@ def parse_opts():
             logging.critical('unhandled option %s'%opt)
             sys.exit(1)
 
-    if options['inreport'] is None and options['hash'] is None:
-        logging.critical('at least one of hash or inreport should be specified')
+    if options['report'] is None and options['hash'] is None:
+        logging.critical('at least one of hash or report should be specified')
         sys.exit(1)
 
     if options['hash'] is not None and options['tag'] is None:
