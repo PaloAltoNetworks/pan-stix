@@ -43,10 +43,6 @@ def dump_report_to_stix(options):
 
     _set_logging_debug(options)
 
-    subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'tag', 'sample', 'pcap']}
-    if 'inreport' in options:
-        subargs['report'] = options['inreport']
-
     sp = panstix.packaging.get_stix_package_from_wfreport(**options)
     if options['outfile'] is not None:
         f = open(options['outfile'], 'w')
@@ -59,10 +55,6 @@ def dump_report_to_maec(options):
     panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
 
     _set_logging_debug(options)
-
-    subargs = {k: v for k,v in options.iteritems() if k in ['hash', 'tag', 'sample', 'pcap']}
-    if 'inreport' in options:
-        subargs['report'] = options['inreport']
 
     mp = panstix.packaging.get_maec_package_from_wfreport(**options)
     if options['outfile'] is not None:
