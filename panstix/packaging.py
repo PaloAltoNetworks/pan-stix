@@ -28,17 +28,6 @@ import stix.indicator
 from .exceptions import PanStixError
 from . import wf
 
-def get_stix_package_from_threat(t):
-    stix_package = stix.core.STIXPackage()
-    stix_header = stix.core.STIXHeader(title="Threat Incident", package_intents='Incident')
-    stix_package.stix_header = stix_header
-
-    stix_incident = threat.get_incident_from_threat(t)
-
-    stix_package.add_incident(stix_incident)
-
-    return stix_package
-
 def get_maec_package_from_wfreport(**kwargs):
     # get malware subject from wf submodule
     subargs = {k: v for k,v in kwargs.iteritems() if k in ['hash', 'tag', 'report', 'pcap'] and kwargs[k] is not None }
