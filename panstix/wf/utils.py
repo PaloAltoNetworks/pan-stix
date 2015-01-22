@@ -142,10 +142,12 @@ def get_malware_subject_from_report(**kwargs):
     hash = kwargs.get('hash', None)
 
     if 'report' in kwargs:
-        f = open(kwargs['report'], 'rb')
-        tr = f.read()
-        f.close()
-        report = lxml.etree.fromstring(tr)
+        if hasattr(kwargs['report'], 'read'):
+            report = lxml.etree.parse(kwargs['report']).getroot()
+        else:
+            f = open(kwargs['report'], 'rb')
+            report = lxml.etree.parse(f).getroot()
+            f.close()
         if hash is None:
             hash = report.xpath('file_info/sha256/text()')
             if len(hash) != 0:
