@@ -51,6 +51,33 @@ def dump_report_to_stix(options):
     else:
         sys.stdout.write(sp.to_xml())
 
+def dump_report_to_stix_ol(options):
+    panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
+
+    _set_logging_debug(options)
+
+    sp = panstix.packaging.get_stix_ol_package_from_wfreport(**options)
+    if options['outfile'] is not None:
+        f = open(options['outfile'], 'w')
+        f.write(sp.to_xml())
+        f.close()
+    else:
+        sys.stdout.write(sp.to_xml())
+
+def dump_report_to_stix_il(options):
+    panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
+
+    _set_logging_debug(options)
+
+    sp = panstix.packaging.get_stix_il_package_from_wfreport(**options)
+    if options['outfile'] is not None:
+        f = open(options['outfile'], 'w')
+        f.write(sp.to_xml())
+        f.close()
+    else:
+        sys.stdout.write(sp.to_xml())
+
+
 def dump_report_to_maec(options):
     panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
 
@@ -76,7 +103,7 @@ def parse_opts():
         'outfile': None
     }
 
-    valid_outfmt = ['stix', 'maec']
+    valid_outfmt = ['stix', 'maec', 'stix-ol', 'stix-il']
     short_options = 't:Dh:i:o:f:'
     long_options = ['no-pcap', 'no-sample']
 
@@ -148,6 +175,10 @@ def main():
         dump_report_to_stix(options)
     elif options['outfmt'] == 'maec':
         dump_report_to_maec(options)
+    elif options['outfmt'] == 'stix-ol':
+        dump_report_to_stix_ol(options)
+    elif options['outfmt'] == 'stix-il':
+        dump_report_to_stix_il(options)
     else:
         logging.critical('unhandled output format %s'%options['outfmt'])
         sys.exit(1)

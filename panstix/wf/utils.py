@@ -96,7 +96,7 @@ def add_malware_analysis_from_report(csubject, wfrreport, pcapcb):
         logging.warning('no report inside wildfire report')
 
 def __create_malware_subject_from_report(wfreport, pcap=None):
-    WFNS = cybox.utils.Namespace("http://wildfire.selfaddress.es/", "wildfire")
+    WFNS = cybox.utils.Namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
     maec.utils.set_id_namespace(WFNS)
     cybox.utils.set_id_namespace(WFNS)
 

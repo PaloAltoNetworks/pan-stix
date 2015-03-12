@@ -28,6 +28,67 @@ import stix.indicator
 from .exceptions import PanStixError
 from . import wf
 
+LOG = logging.getLogger(__name__)
+
+def get_stix_ol_package_from_wfreport(**kwargs):
+    # get malware subject from wf submodule
+    subargs = {k: v for k,v in kwargs.iteritems() if k in ['hash', 'tag', 'report'] and kwargs[k] is not None }
+    subargs['pcap'] = False
+    ms = wf.get_malware_subject_from_report(**subargs)
+    hash = ms.malware_instance_object_attributes.properties.hashes.sha256
+
+    # create STIX Package
+    stix_package = stix.core.STIXPackage()
+    stix_header = stix.core.STIXHeader(description="Sample "+hash+" - observables", title=hash)
+    stix_package.stix_header = stix_header
+
+    o = cybox.core.Observable(item=ms.malware_instance_object_attributes)
+    stix_package.add_observable(o)
+
+    for mb in ms.findings_bundles.bundle:
+        for ac in mb.collections.action_collections:
+            for ma in ac.action_list:
+                for ao in ma.associated_objects:
+                    # are you still with me ?
+                    p = ao.properties
+                    p.parent = None
+                    o = cybox.core.Observable(item=p)
+                    stix_package.add_observable(o)
+
+    return stix_package
+
+
+def get_stix_il_package_from_wfreport(**kwargs):
+    # get malware subject from wf submodule
+    subargs = {k: v for k,v in kwargs.iteritems() if k in ['hash', 'tag', 'report'] and kwargs[k] is not None }
+    subargs['pcap'] = False
+    ms = wf.get_malware_subject_from_report(**subargs)
+    hash = ms.malware_instance_object_attributes.properties.hashes.sha256
+
+    # create STIX Package
+    stix_package = stix.core.STIXPackage()
+    stix_header = stix.core.STIXHeader(description="Sample "+hash+" - observables", title=hash)
+    stix_package.stix_header = stix_header
+
+    o = cybox.core.Observable(item=ms.malware_instance_object_attributes)
+    i = stix.indicator.Indicator()
+    i.add_observable(o)
+    stix_package.add_observable(o)
+
+    for mb in ms.findings_bundles.bundle:
+        for ac in mb.collections.action_collections:
+            for ma in ac.action_list:
+                for ao in ma.associated_objects:
+                    # are you still with me ?
+                    p = ao.properties
+                    p.parent = None
+                    o = cybox.core.Observable(item=p)
+                    i = stix.indicator.Indicator()
+                    i.add_observable(o)
+                    stix_package.add_indicator(i)
+
+    return stix_package  
+
 def get_maec_package_from_wfreport(**kwargs):
     # get malware subject from wf submodule
     subargs = {k: v for k,v in kwargs.iteritems() if k in ['hash', 'tag', 'report', 'pcap'] and kwargs[k] is not None }
