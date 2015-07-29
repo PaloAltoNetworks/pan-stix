@@ -125,7 +125,7 @@ def _parse_opts():
         '-t', '--tag',
         metavar='<pan-python tag>',
         action='store',
-        help='pan-python tag for Wildfire'
+        help='pan-python tag for Wildfire API'
     )
     parser.add_argument(
         '--verbose',
@@ -163,7 +163,7 @@ def _parse_opts():
         metavar='<pcap source>',
         action='store',
         default='network',
-        help='pcap filename or \'network\' for retriving from cloud'
+        help='pcap filename or \'network\' for retriving from Wildfire API'
     )
     parser.add_argument(
         '--no-sample',
@@ -177,7 +177,8 @@ def _parse_opts():
         dest='sample',
         action='store',
         default='network',
-        help='sample filename or \'network\' for retriving from cloud'
+        metavar='<sample source>',
+        help='sample filename or \'network\' for retriving from Wildfire API'
     )
     parser.add_argument(
         '-f', '--outfmt',
