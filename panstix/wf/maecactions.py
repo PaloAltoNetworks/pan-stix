@@ -127,7 +127,7 @@ def __associated_object_networkconnection_factory(ao, aodict):
         dsa = ao.properties.destination_socket_address.ip_address
         if 'ip' in aodict:
             dsa.address_value = aodict['ip']
-            dsa.ip_address.category = \
+            dsa.category = \
                 cybox.objects.address_object.Address.CAT_IPV4
         if 'port' in aodict:
             dsa.port = cybox.objects.port_object.Port()
@@ -218,6 +218,7 @@ def __associated_object_httpsession_factory(ao, aodict):
 
         if 'user_agent' in aodict:
             hrrph.user_agent = aodict['user_agent']
+
         if 'host' in aodict:
             hrrph.host = cybox.objects.http_session_object.HostField()
             hrrph.host.domain_name = cybox.objects.uri_object.URI()
