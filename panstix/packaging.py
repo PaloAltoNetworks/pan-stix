@@ -14,6 +14,10 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #
 
+"""This module contains the main entry points for the library.
+
+"""
+
 import logging
 
 import maec.package.package
@@ -30,6 +34,25 @@ LOG = logging.getLogger(__name__)
 
 
 def get_stix_ol_package_from_wfreport(**kwargs):
+    """Generate a STIX package with a list of CybOX Observables extracted
+    from a Wildfire report. 
+
+    The Wildfire report is retrieved using Wildfire API if *hash* and
+    *tag* keyword arguments are specified, or read from a file passed via
+    *report* keyword argument. *report* can be a filename or a file object.
+
+    :param hash: Hash of the sample.
+    :type hash: str
+    :param tag: pan-python tag used to retrieve the report.
+    :type tag: str
+    :param report: filename of the Wildfire report or a file object.
+    :type report: str or file
+    :returns: A STIX Package object with the list of Observables extracted
+        from the Wildfire report.
+    :rtype: stix.core.STIXPackage
+
+    """
+
     # get malware subject from wf submodule
     subargs = {k: v for k, v in kwargs.iteritems()
                if k in ['hash', 'tag', 'report'] and kwargs[k] is not None}
@@ -65,6 +88,24 @@ def get_stix_ol_package_from_wfreport(**kwargs):
 
 
 def get_stix_il_package_from_wfreport(**kwargs):
+    """Generate a STIX package with a list of STIX Indicators extracted
+    from a Wildfire report. 
+
+    The Wildfire report is retrieved using Wildfire API if *hash* and
+    *tag* keyword arguments are specified, or read from a file passed via
+    *report* keyword argument. *report* can be a filename or a file object.
+
+    :param hash: Hash of the sample.
+    :type hash: str
+    :param tag: pan-python tag used to retrieve the report.
+    :type tag: str
+    :param report: filename of the Wildfire report or a file object.
+    :type report: str or file
+    :returns: A STIX Package object with the list of Indicators extracted
+        from the Wildfire report.
+    :rtype: stix.core.STIXPackage
+
+    """
     # get malware subject from wf submodule
     subargs = {k: v for k, v in kwargs.iteritems()
                if k in ['hash', 'tag', 'report'] and kwargs[k] is not None}
@@ -75,7 +116,7 @@ def get_stix_il_package_from_wfreport(**kwargs):
     # create STIX Package
     stix_package = stix.core.STIXPackage()
     stix_header = stix.core.STIXHeader(
-        description="Sample "+hash+" - observables",
+        description="Sample "+hash+" - indicators",
         title=hash
     )
     stix_package.stix_header = stix_header
@@ -104,6 +145,26 @@ def get_stix_il_package_from_wfreport(**kwargs):
 
 
 def get_maec_package_from_wfreport(**kwargs):
+    """Generate a MAEC package from a Wildfire report. 
+
+    The Wildfire report is retrieved using Wildfire API if *hash* and
+    *tag* keyword arguments are specified, or read from a file passed via
+    *report* keyword argument. *report* can be a filename or a file object.
+
+    :param hash: Hash of the sample.
+    :type hash: str
+    :param tag: pan-python tag used to retrieve the report.
+    :type tag: str
+    :param report: filename of the Wildfire report or a file object.
+    :type report: str or file
+    :param pcap: filename of the pcap file to include or 'network' to
+        retrive the pcap using Wildfire API via *tag*. If *None* pcap
+        is not included in the resulting package.
+    :type pcap: str
+    :returns: A MAEC Package object with Wildfire report contents.
+    :rtype: maec.package.package.Package
+
+    """
     # get malware subject from wf submodule
     subargs = {k: v for k, v in kwargs.iteritems()
                if k in ['hash', 'tag', 'report', 'pcap'] and
@@ -121,6 +182,30 @@ def get_maec_package_from_wfreport(**kwargs):
 
 
 def get_stix_package_from_wfreport(**kwargs):
+    """Generate a STIX package from a Wildfire report. 
+
+    The Wildfire report is retrieved using Wildfire API if *hash* and
+    *tag* keyword arguments are specified, or read from a file passed via
+    *report* keyword argument. *report* can be a filename or a file object.
+
+    :param hash: Hash of the sample.
+    :type hash: str
+    :param tag: pan-python tag used to retrieve the report.
+    :type tag: str
+    :param report: filename of the Wildfire report or a file object.
+    :type report: str or file
+    :param pcap: filename of the pcap file to include or 'network' to
+        retrive the pcap using Wildfire API via *tag*. If *None* pcap
+        is not included in the resulting package.
+    :type pcap: str
+    :param sample: filename of the sample file to include or 'network' to
+        retrive the sample using Wildfire API via *tag*. If *None* sample
+        is not included in the resulting package.
+    :type sample: str
+    :returns: A STIX Package object with Wildfire report contents.
+    :rtype: stix.core.Package
+
+    """
     # get malware subject from wf submodule
     subargs = {k: v for k, v in kwargs.iteritems()
                if k in ['hash', 'tag', 'report', 'pcap'] and
