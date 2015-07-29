@@ -17,9 +17,9 @@ See the docs directory for API and CLI script documentation.
 
 # Installation
 
-Clone github repo and run
-
-    python setup.py install
+    $ git clone https://github.com/PaloAltoNetworks-BD/pan-stix.git
+    $ cd pan-stix
+    $ python setup.py install
 
 ## Author
 
