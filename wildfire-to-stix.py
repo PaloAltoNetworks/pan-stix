@@ -1,5 +1,7 @@
+#!/usr/bin/env python
+
 #
-# Copyright (c) 2014 Palo Alto Networks, Inc. <info@paloaltonetworks.com>
+# Copyright (c) 2014-2015 Palo Alto Networks, Inc. <info@paloaltonetworks.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
