@@ -2,26 +2,25 @@
 
 A package to convert Palo Alto Networks threat information into STIX/MAEC format.
 
-## Requirements
+## Features
 
-- python-maec (<https://github.com/MAECProject/python-maec>)
-- python-cybox (<https://github.com/CybOXProject/python-cybox>)
-- python-stix (<https://github.com/STIXProject/python-stix>)
-- pan-python (<https://github.com/kevinsteves/pan-python>)
-- lxml (from python-maec and python-cybox)
+pan-stix can retrieve and convert Palo Alto Networks Wildfire reports in the following formats:
 
-## wildfire-to-stix.py usage
+- MAEC Package
+- STIX Package with embedded MAEC package
+- STIX Package with list of Indicators
+- STIX Package with list of Observables
 
-- install required packages (see *Requirements*)
-- configure .panrc with hostname and api of the Wildfire cloud (see <https://github.com/kevinsteves/pan-python/blob/master/doc/pan.xapi.rst> for details)
-- run wildfire-to-stix.py to retrieve Wildfire reports and convert them to a STIX package:
+# Documentation
 
-		wildfire-to-stix.py -t <.panrc tag> -h <hash> -o <output name> [--no-pcap] [--no-sample]
+See the docs directory for API and CLI script documentation.
 
-- run wildfire-to-stix.py to retrieve Wildfire reports and convert them to a MAEC package:
+# Installation
 
-		wildfire-to-stix.py -t <.panrc tag> -h <hash> -o <output name> -f maec --no-pcap --no-sample
-		
+Clone github repo and run
+
+    python setup.py install
+
 ## Author
 
 Luigi Mori - lmori@paloaltonetworks.com
