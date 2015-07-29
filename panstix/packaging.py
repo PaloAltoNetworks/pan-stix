@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2014 Palo Alto Networks, Inc. <info@paloaltonetworks.com>
+# Copyright (c) 2014-2015 Palo Alto Networks, Inc. <info@paloaltonetworks.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -16,8 +16,6 @@
 
 import logging
 
-import lxml
-
 import maec.package.package
 import maec.package.malware_subject
 import stix.extensions.malware.maec_4_1_malware
@@ -30,22 +28,30 @@ from . import wf
 
 LOG = logging.getLogger(__name__)
 
+
 def get_stix_ol_package_from_wfreport(**kwargs):
     # get malware subject from wf submodule
-    subargs = {k: v for k,v in kwargs.iteritems() if k in ['hash', 'tag', 'report'] and kwargs[k] is not None }
+    subargs = {k: v for k, v in kwargs.iteritems()
+               if k in ['hash', 'tag', 'report'] and kwargs[k] is not None}
     subargs['pcap'] = False
     ms = wf.get_malware_subject_from_report(**subargs)
     hash = ms.malware_instance_object_attributes.properties.hashes.sha256
 
     # create STIX Package
     stix_package = stix.core.STIXPackage()
-    stix_header = stix.core.STIXHeader(description="Sample "+hash+" - observables", title=hash)
+    stix_header = stix.core.STIXHeader(
+        description="Sample "+hash+" - observables",
+        title=hash
+    )
     stix_package.stix_header = stix_header
 
     o = cybox.core.Observable(item=ms.malware_instance_object_attributes)
     stix_package.add_observable(o)
 
     for mb in ms.findings_bundles.bundle:
+        if mb.collections is None:
+            continue
+
         for ac in mb.collections.action_collections:
             for ma in ac.action_list:
                 for ao in ma.associated_objects:
@@ -60,14 +66,18 @@ def get_stix_ol_package_from_wfreport(**kwargs):
 
 def get_stix_il_package_from_wfreport(**kwargs):
     # get malware subject from wf submodule
-    subargs = {k: v for k,v in kwargs.iteritems() if k in ['hash', 'tag', 'report'] and kwargs[k] is not None }
+    subargs = {k: v for k, v in kwargs.iteritems()
+               if k in ['hash', 'tag', 'report'] and kwargs[k] is not None}
     subargs['pcap'] = False
     ms = wf.get_malware_subject_from_report(**subargs)
     hash = ms.malware_instance_object_attributes.properties.hashes.sha256
 
     # create STIX Package
     stix_package = stix.core.STIXPackage()
-    stix_header = stix.core.STIXHeader(description="Sample "+hash+" - observables", title=hash)
+    stix_header = stix.core.STIXHeader(
+        description="Sample "+hash+" - observables",
+        title=hash
+    )
     stix_package.stix_header = stix_header
 
     o = cybox.core.Observable(item=ms.malware_instance_object_attributes)
@@ -76,6 +86,9 @@ def get_stix_il_package_from_wfreport(**kwargs):
     stix_package.add_observable(o)
 
     for mb in ms.findings_bundles.bundle:
+        if mb.collections is None:
+            continue
+
         for ac in mb.collections.action_collections:
             for ma in ac.action_list:
                 for ao in ma.associated_objects:
@@ -87,13 +100,15 @@ def get_stix_il_package_from_wfreport(**kwargs):
                     i.add_observable(o)
                     stix_package.add_indicator(i)
 
-    return stix_package  
+    return stix_package
+
 
 def get_maec_package_from_wfreport(**kwargs):
     # get malware subject from wf submodule
-    subargs = {k: v for k,v in kwargs.iteritems() if k in ['hash', 'tag', 'report', 'pcap'] and kwargs[k] is not None }
+    subargs = {k: v for k, v in kwargs.iteritems()
+               if k in ['hash', 'tag', 'report', 'pcap'] and
+               kwargs[k] is not None}
     ms = wf.get_malware_subject_from_report(**subargs)
-    hash = ms.malware_instance_object_attributes.properties.hashes.sha256
 
     # put it in a malwaresubjectlist
     msl = maec.package.malware_subject.MalwareSubjectList()
@@ -104,9 +119,12 @@ def get_maec_package_from_wfreport(**kwargs):
 
     return maecpackage
 
+
 def get_stix_package_from_wfreport(**kwargs):
     # get malware subject from wf submodule
-    subargs = {k: v for k,v in kwargs.iteritems() if k in ['hash', 'tag', 'report', 'pcap'] and kwargs[k] is not None }
+    subargs = {k: v for k, v in kwargs.iteritems()
+               if k in ['hash', 'tag', 'report', 'pcap'] and
+               kwargs[k] is not None}
     ms = wf.get_malware_subject_from_report(**subargs)
     hash = ms.malware_instance_object_attributes.properties.hashes.sha256
 
@@ -119,14 +137,20 @@ def get_stix_package_from_wfreport(**kwargs):
 
     # create TTP
     mi = stix.extensions.malware.maec_4_1_malware.MAECInstance(maecpackage)
-    ttp = stix.ttp.TTP(title="%s"%hash, description="Sample "+hash+" Artifacts and Characterization")
+    ttp = stix.ttp.TTP(
+        title="%s" % hash,
+        description="Sample "+hash+" Artifacts and Characterization"
+    )
     mb = stix.ttp.behavior.Behavior()
     mb.add_malware_instance(mi)
     ttp.behavior = mb
 
     # add TTP to STIX package
     stix_package = stix.core.STIXPackage()
-    stix_header = stix.core.STIXHeader(description="Sample "+hash+" Artifacts and Characterization", title=hash)
+    stix_header = stix.core.STIXHeader(
+        description="Sample "+hash+" Artifacts and Characterization",
+        title=hash
+    )
     stix_package.stix_header = stix_header
     stix_package.add_ttp(ttp)
 
@@ -135,9 +159,12 @@ def get_stix_package_from_wfreport(**kwargs):
         s = kwargs['sample']
         samplerao = None
         if s == 'network':
-            if not 'tag' in kwargs:
+            if 'tag' not in kwargs:
                 raise PanStixError('sample from network, but no tag specified')
-            samplerao = wf.sample.get_raw_artifact_from_sample_hash(kwargs['tag'], hash)
+            samplerao = wf.sample.get_raw_artifact_from_sample_hash(
+                kwargs['tag'],
+                hash
+            )
         elif isinstance(s, basestring):
             f = open(s, "rb")
             sample = f.read()
@@ -146,7 +173,10 @@ def get_stix_package_from_wfreport(**kwargs):
 
         if samplerao is not None:
             i = stix.indicator.Indicator(title="Wildfire sample "+hash)
-            o = cybox.core.Observable(description="Raw artifact object of wildfire sample "+hash, title="File "+hash)
+            o = cybox.core.Observable(
+                description="Raw artifact object of wildfire sample "+hash,
+                title="File "+hash
+            )
             o.object_ = samplerao
             i.add_observable(o)
             i.add_indicated_ttp(stix.ttp.TTP(idref=ttp.id_))
