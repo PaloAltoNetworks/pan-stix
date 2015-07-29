@@ -16,64 +16,74 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #
 
+from __future__ import print_function
+
 import sys
-import getopt
+import argparse
 import logging
-import pan.xapi
 
-import datetime
-import dateutil.tz
-
+from panstix import __version__
 import panstix.utils
 import panstix.packaging
 
-def _set_logging_debug(options):
-    if options['debug']:
-        logger = logging.getLogger()
-        if options['debug'] == 3:
-            logger.setLevel(pan.xapi.DEBUG3)
-        elif options['debug'] == 2:
-            logger.setLevel(pan.xapi.DEBUG2)
-        elif options['debug'] == 1:
-            logger.setLevel(pan.xapi.DEBUG1)
-    
-        handler = logging.StreamHandler()
-        logger.addHandler(handler)
+LOG = logging.getLogger(__name__)
+
 
 def dump_report_to_stix(options):
-    panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
+    panstix.utils.set_id_namespace(
+        "https://github.com/PaloAltoNetworks-BD/pan-stix",
+        "pan-stix"
+    )
 
-    _set_logging_debug(options)
-
-    sp = panstix.packaging.get_stix_package_from_wfreport(**options)
-    if options['outfile'] is not None:
-        f = open(options['outfile'], 'w')
+    sp = panstix.packaging.get_stix_package_from_wfreport(
+        hash=options.hash,
+        tag=options.tag,
+        report=options.inreport,
+        sample=options.sample,
+        pcap=options.pcap
+    )
+    if options.outfile is not None:
+        f = open(options.outfile, 'w')
         f.write(sp.to_xml())
         f.close()
     else:
         sys.stdout.write(sp.to_xml())
+
 
 def dump_report_to_stix_ol(options):
-    panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
+    panstix.utils.set_id_namespace(
+        "https://github.com/PaloAltoNetworks-BD/pan-stix",
+        "pan-stix"
+    )
 
-    _set_logging_debug(options)
+    sp = panstix.packaging.get_stix_ol_package_from_wfreport(
+        hash=options.hash,
+        tag=options.tag,
+        report=options.inreport
+    )
 
-    sp = panstix.packaging.get_stix_ol_package_from_wfreport(**options)
-    if options['outfile'] is not None:
-        f = open(options['outfile'], 'w')
+    if options.outfile is not None:
+        f = open(options.outfile, 'w')
         f.write(sp.to_xml())
         f.close()
     else:
         sys.stdout.write(sp.to_xml())
 
+
 def dump_report_to_stix_il(options):
-    panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
+    panstix.utils.set_id_namespace(
+        "https://github.com/PaloAltoNetworks-BD/pan-stix",
+        "pan-stix"
+    )
 
-    _set_logging_debug(options)
+    sp = panstix.packaging.get_stix_il_package_from_wfreport(
+        hash=options.hash,
+        tag=options.tag,
+        report=options.inreport
+    )
 
-    sp = panstix.packaging.get_stix_il_package_from_wfreport(**options)
-    if options['outfile'] is not None:
-        f = open(options['outfile'], 'w')
+    if options.outfile is not None:
+        f = open(options.outfile, 'w')
         f.write(sp.to_xml())
         f.close()
     else:
@@ -81,108 +91,172 @@ def dump_report_to_stix_il(options):
 
 
 def dump_report_to_maec(options):
-    panstix.utils.set_id_namespace("https://github.com/PaloAltoNetworks-BD/pan-stix", "pan-stix")
+    panstix.utils.set_id_namespace(
+        "https://github.com/PaloAltoNetworks-BD/pan-stix",
+        "pan-stix"
+    )
 
-    _set_logging_debug(options)
+    mp = panstix.packaging.get_maec_package_from_wfreport(
+        hash=options.hash,
+        report=options.inreport,
+        tag=options.tag,
+        pcap=options.pcap
+    )
 
-    mp = panstix.packaging.get_maec_package_from_wfreport(**options)
-    if options['outfile'] is not None:
-        f = open(options['outfile'], 'w')
+    if options.outfile is not None:
+        f = open(options.outfile, 'w')
         f.write(mp.to_xml())
         f.close()
     else:
-        sys.stdout.write(mpp.to_xml())
+        sys.stdout.write(mp.to_xml())
 
-def parse_opts():
-    options = {
-        'tag': None,
-        'debug': 0,
-        'hash': None,
-        'pcap': 'network',
-        'sample': 'network',
-        'report': None,
-        'outfmt': 'stix',
-        'outfile': None
-    }
 
-    valid_outfmt = ['stix', 'maec', 'stix-ol', 'stix-il']
-    short_options = 't:Dh:i:o:f:'
-    long_options = ['no-pcap', 'no-sample']
+def _parse_opts():
+    parser = argparse.ArgumentParser(
+        description="Convert Palo Alto Networks Wildfire reports to STIX/MAEC",
+        add_help=False
+    )
+    parser.add_argument(
+        '--version',
+        action='version',
+        version=__version__
+    )
+    parser.add_argument(
+        '-t', '--tag',
+        metavar='<pan-python tag>',
+        action='store',
+        help='pan-python tag for Wildfire'
+    )
+    parser.add_argument(
+        '--verbose',
+        action='store_true',
+        help='verbose'
+    )
+    parser.add_argument(
+        '-h', '--hash',
+        action='store',
+        metavar='<hash>',
+        help='hash of the sample'
+    )
+    parser.add_argument(
+        '--help',
+        action='help',
+        help='help'
+    )
+    parser.add_argument(
+        '-i', '--in',
+        dest='inreport',
+        metavar='<report filename>',
+        action='store',
+        help='local Wildfire report'
+    )
+    parser.add_argument(
+        '--no-pcap',
+        dest='no_pcap',
+        action='store_true',
+        default=False,
+        help='do not include pcap'
+    )
+    parser.add_argument(
+        '--pcap',
+        dest='pcap',
+        metavar='<pcap source>',
+        action='store',
+        default='network',
+        help='pcap filename or \'network\' for retriving from cloud'
+    )
+    parser.add_argument(
+        '--no-sample',
+        dest='no_sample',
+        action='store_true',
+        default=False,
+        help='do not include sample'
+    )
+    parser.add_argument(
+        '--sample',
+        dest='sample',
+        action='store',
+        default='network',
+        help='sample filename or \'network\' for retriving from cloud'
+    )
+    parser.add_argument(
+        '-f', '--outfmt',
+        action='store',
+        metavar='<output format>',
+        default='stix',
+        choices=['stix', 'stix-il', 'stix-ol', 'maec'],
+        help='output format'
+    )
+    parser.add_argument(
+        '-o', '--out',
+        action='store',
+        dest='outfile',
+        metavar='<output filename>',
+        help='output filename'
+    )
 
-    try:
-        opts, args = getopt.getopt(sys.argv[1:],
-                                short_options, long_options)
-    except getopt.GetoptError as error:
-        logging.critical(error, file=sys.stderr)
+    if len(sys.argv) == 1:
+        parser.print_help()
         sys.exit(1)
 
-    for opt, arg in opts:
-        if opt == '-t':
-            if arg:
-                options['tag'] = arg
-        elif opt == '-D':
-            if not options['debug'] < 3:
-                logging.critical('Maximum debug level is 3', file=sys.stderr)
-                sys.exit(1)
-            options['debug'] += 1
-        elif opt == '-h':
-            if options['report'] is not None:
-                logging.critical('only one of report or hash should be specified', file=sys.stderr)
-                sys.exit(1)
-            options['hash'] = arg
-        elif opt == '--no-pcap':
-            options['pcap'] = False
-        elif opt == '--no-sample':
-            options['sample'] = False
-        elif opt == '-i':
-            if options['hash'] is not None:
-                logging.critical('only one of report or hash should be specified', file=sys.stderr)
-                sys.exit(1)                
-            options['report'] = arg
-        elif opt == '-f':
-            if not arg in valid_outfmt:
-                logging.critical('invalid output format', file=sys.stderr)
-                sys.exit(1)
-            options['outfmt'] = arg
-        elif opt == '-o':
-            options['outfile'] = arg
-        else:
-            logging.critical('unhandled option %s'%opt)
-            sys.exit(1)
+    options = parser.parse_args()
 
-    if options['report'] is None and options['hash'] is None:
-        logging.critical('at least one of hash or report should be specified')
+    if options.no_pcap:
+        options.pcap = None
+    if options.no_sample:
+        options.sample = None
+
+    if options.hash is not None and options.inreport is not None:
+        print('CRITICAL: only one of \'in\' or \'hash\' should be specified',
+              file=sys.stderr)
         sys.exit(1)
 
-    if options['hash'] is not None and options['tag'] is None:
-        logging.critical('tag should be specified to retrieve reports by hash')
+    if options.hash is None and options.inreport is None:
+        print('CRITICAL: one of \'in\' or \'hash\' should be specified',
+              file=sys.stderr)
         sys.exit(1)
 
-    if options['pcap'] and options['tag'] is None:
-        logging.critical('tag should be specified to retrieve pcaps')
+    if options.hash is not None and options.tag is None:
+        print('CRITICAL: tag should be specified to retrieve reports by hash',
+              file=sys.stderr)
         sys.exit(1)
 
-    if options['sample'] and options['tag'] is None:
-        logging.critical('tag should be specified to retrieve samples')
+    if options.pcap == 'network' and options.tag is None:
+        print('CRITICAL: tag should be specified to retrieve pcaps',
+              file=sys.stderr)
+        sys.exit(1)
+
+    if options.sample == 'network' and options.tag is None:
+        print('CRITICAL: should be specified to retrieve samples',
+              file=sys.stderr)
         sys.exit(1)
 
     return options
 
+
 def main():
-    logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.DEBUG)
+    options = _parse_opts()
 
-    options = parse_opts()
+    loglevel = logging.INFO
+    if options.verbose:
+        loglevel = logging.DEBUG
 
-    if options['outfmt'] == 'stix':
+    logging.basicConfig(
+        format='%(asctime)s [%(levelname)s] %(message)s',
+        datefmt='%d/%m/%Y %I:%M:%S %p',
+        level=loglevel
+    )
+
+    if options.outfmt == 'stix':
         dump_report_to_stix(options)
-    elif options['outfmt'] == 'maec':
+    elif options.outfmt == 'maec':
         dump_report_to_maec(options)
-    elif options['outfmt'] == 'stix-ol':
+    elif options.outfmt == 'stix-ol':
         dump_report_to_stix_ol(options)
-    elif options['outfmt'] == 'stix-il':
+    elif options.outfmt == 'stix-il':
         dump_report_to_stix_il(options)
     else:
-        logging.critical('unhandled output format %s'%options['outfmt'])
+        logging.critical('unhandled output format %s' % options.outfmt)
         sys.exit(1)
 
     sys.exit(0)
