@@ -77,6 +77,8 @@ def __associated_object_registry_factory(ao, aodict):
         sk = cybox.objects.win_registry_key_object.WinRegistryKey()
         sk.key = aodict['subkey']
         ao.properties.subkeys.append(sk)
+    if 'hive' in aodict:
+        ao.properties.hive = aodict['hive']
     if 'name' in aodict or 'data' in aodict:
         ao.properties.values = cybox.objects.win_registry_key_object.RegistryValues()
         rv = cybox.objects.win_registry_key_object.RegistryValue()
@@ -272,7 +274,17 @@ def registry_create_key_action(reg_key, reg_subkey):
     action.name = "create registry key"
     action.name.xsi_type = 'maecVocabs:RegistryActionNameVocab-1.0'
     action.associated_objects = cybox.core.AssociatedObjects()
-    ao = __associated_object_factory({'type': 'registry', 'key': reg_key, 'subkey': reg_subkey}, 'output')
+
+    aof_args = {
+        'type': 'registry'
+    }
+    if reg_key.startswith('HKEY_'):
+        aof_args['hive'] = reg_key
+        aof_args['key'] = reg_subkey
+    else:
+        aof_args['key'] = reg_key
+        aof_args['subkey'] = reg_subkey
+    ao = __associated_object_factory(aof_args, 'output')
     action.associated_objects.append(ao)
     return action
 
