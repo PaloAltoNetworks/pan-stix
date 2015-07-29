@@ -13,7 +13,7 @@ pan-stix can retrieve and convert Palo Alto Networks Wildfire reports in the fol
 
 # Documentation
 
-See the docs directory for API and CLI script documentation, or go to http://pan-stix.readthedocs.org/
+SAPI and CLI script documentation are available at http://pan-stix.readthedocs.org/
 
 # Installation
 
