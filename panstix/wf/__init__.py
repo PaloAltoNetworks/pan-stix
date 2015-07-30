@@ -14,8 +14,8 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #
 
-from .utils import get_malware_instance_object_attributes_from_fileinfo
-from .utils import add_malware_analysis_from_report
-from .utils import get_malware_subject_from_report
-from .sample import get_raw_artifact_from_sample_hash
-from .sample import get_raw_artifact_from_sample
+from .utils import get_malware_instance_object_attributes_from_fileinfo  # noqa
+from .utils import add_malware_analysis_from_report  # noqa
+from .utils import get_malware_subject_from_report  # noqa
+from .sample import get_raw_artifact_from_sample_hash  # noqa
+from .sample import get_raw_artifact_from_sample  # noqa
