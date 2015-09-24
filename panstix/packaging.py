@@ -124,7 +124,7 @@ def get_stix_il_package_from_wfreport(**kwargs):
     o = cybox.core.Observable(item=ms.malware_instance_object_attributes)
     i = stix.indicator.Indicator()
     i.add_observable(o)
-    stix_package.add_observable(o)
+    stix_package.add_indicator(i)
 
     for mb in ms.findings_bundles.bundle:
         if mb.collections is None:
