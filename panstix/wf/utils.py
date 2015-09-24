@@ -81,7 +81,7 @@ def get_malware_instance_object_attributes_from_fileinfo(wffileinfo, wfreport):
                     fname = fname[0].strip()
                     cmioa.properties.file_name = fname
         else:
-            LOG.info('ignored file_info tag %s' % cchild.tag)
+            LOG.debug('ignored file_info tag %s' % cchild.tag)
 
     return cmioa
 
@@ -96,7 +96,7 @@ def add_malware_analysis_from_report(csubject, wfrreport, pcapcb):
                             len(rversion))
                 continue
             rversion = rversion[0].strip()
-            LOG.info('handling report %s' % rversion)
+            LOG.debug('handling report %s' % rversion)
             if rversion == '0.1':
                 report_0_1.add_malware_analysis_from_report(
                     csubject,
