@@ -433,7 +433,7 @@ def add_static_malware_analysis_from_report(csubject, report, pcap=None):
 
 
 def add_malware_analysis_from_report(csubject, report, pcap=None):
-    static_analysis_platforms = ['100', '101', '102', '104']
+    static_analysis_platforms = ['100', '101', '102', '104', '204']
 
     platform = report.xpath('platform/text()')
     if len(platform) == 0:
