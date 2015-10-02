@@ -108,7 +108,8 @@ def get_stix_il_package_from_wfreport(**kwargs):
     """
     # get malware subject from wf submodule
     subargs = {k: v for k, v in kwargs.iteritems()
-               if k in ['hash', 'tag', 'report'] and kwargs[k] is not None}
+               if k in ['hash', 'tag', 'report', 'evidence']
+               and kwargs[k] is not None}
     subargs['pcap'] = False
     ms = wf.get_malware_subject_from_report(**subargs)
     hash = ms.malware_instance_object_attributes.properties.hashes.sha256
