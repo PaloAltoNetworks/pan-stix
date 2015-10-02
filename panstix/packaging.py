@@ -101,6 +101,9 @@ def get_stix_il_package_from_wfreport(**kwargs):
     :type tag: str
     :param report: filename of the Wildfire report or a file object.
     :type report: str or file
+    :param evidence: can be used to retrieve only indicators associated to
+        malicious behaviors with a score higher than this threshold
+    :type evidence: float
     :returns: A STIX Package object with the list of Indicators extracted
         from the Wildfire report.
     :rtype: stix.core.STIXPackage
@@ -108,7 +111,8 @@ def get_stix_il_package_from_wfreport(**kwargs):
     """
     # get malware subject from wf submodule
     subargs = {k: v for k, v in kwargs.iteritems()
-               if k in ['hash', 'tag', 'report'] and kwargs[k] is not None}
+               if k in ['hash', 'tag', 'report', 'evidence']
+               and kwargs[k] is not None}
     subargs['pcap'] = False
     ms = wf.get_malware_subject_from_report(**subargs)
     hash = ms.malware_instance_object_attributes.properties.hashes.sha256

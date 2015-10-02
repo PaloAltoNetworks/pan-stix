@@ -37,7 +37,11 @@ from . import maecactions
 LOG = logging.getLogger(__name__)
 
 
-def add_malware_analysis_from_report(csubject, report, pcap=None):
+def add_malware_analysis_from_report(csubject, report, pcap=None, evidence=None):
+    if evidence is not None:
+        LOG.debug("no evidence tag in report 0.1")
+        return
+
     def __add_process(pid, image=None):
         if pid not in processes:
             processes[pid] = {
