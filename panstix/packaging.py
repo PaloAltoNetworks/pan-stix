@@ -101,6 +101,9 @@ def get_stix_il_package_from_wfreport(**kwargs):
     :type tag: str
     :param report: filename of the Wildfire report or a file object.
     :type report: str or file
+    :param evidence: can be used to retrieve only indicators associated to
+        malicious behaviors with a score higher than this threshold
+    :type evidence: float
     :returns: A STIX Package object with the list of Indicators extracted
         from the Wildfire report.
     :rtype: stix.core.STIXPackage
