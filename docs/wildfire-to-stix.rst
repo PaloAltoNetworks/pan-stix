@@ -35,3 +35,5 @@ Usage
                             output format
       -o <output filename>, --out <output filename>
                             output filename
+      -e <evidence score>, --evidence <evidence score>
+                            minimum evidence score
