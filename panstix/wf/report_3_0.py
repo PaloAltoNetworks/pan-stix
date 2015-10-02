@@ -230,58 +230,9 @@ def __handle_process(p, pdict, bundle):
             bundle.add_action(action, "Java Activity")
 
 
-def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None):
-    LOG.debug("add_dynamic_malware_analysis_from_report")
-
-    # analysis
-    wfanalysis = maec.package.analysis.Analysis(
-        method="dynamic",
-        type="triage"
-    )
-    now = datetime.datetime.utcnow()
-    wfanalysis.lastupdate_datetime = now.strftime(
-        "%Y-%m-%dT%H:%M:%S.000000+00:00"
-    )  # 2014-02-20T09:00:00.000000
-
-    # summary with verdict
-    wfsummary = "Palo Alto Networks Wildfire dynamic analysis " +\
-                "of the malware instance object."
-    software = report.xpath('software/text()')
-    if len(software) > 0:
-        software = software[0].strip()
-        wfsummary = wfsummary+" Software: "+software+"."
-    verdict = report.xpath('malware/text()')
-    if len(verdict) > 0:
-        verdict = verdict[0].strip()
-        wfsummary += " Malware: "+verdict
-    wfanalysis.summary = wfsummary
-
-    # XXX ??? analysis environemnt ???
-    # maybe to specify Wildfire sandbox contents
-    wftool = cybox.common.ToolInformation()
-    wftool.vendor = "http://www.paloaltonetworks.com"
-    wftool.name = "Palo Alto Networks Wildfire"
-    wftool.version = "3.0"
-    wfanalysis.add_tool(wftool)
-
-    # create the bundle
-    wfbundle = maec.bundle.bundle.Bundle(defined_subject=False)
-    processes = {}
-
-    # add behaviors from report <summary> to <behavior>s
-    summary = report.xpath('summary')
-    if len(summary) == 0:
-        LOG.warning('no <summary> objects in report')
-    else:
-        summary = summary[0]
-        for sentry in summary:
-            edesc = sentry.text.strip()
-            if sentry.get('details') is not None:
-                edesc += " Details: "+sentry.get('details').strip()
-            cb = maec.bundle.behavior.Behavior(description=edesc)
-            wfbundle.add_behavior(cb)
-
+def add_full_dynamic_analysis_from_report(wfbundle, report, pcap):
     # process_tree
+    processes = {}
     process_tree = report.xpath('process_tree')
 
     if len(process_tree) == 0:
@@ -295,9 +246,9 @@ def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None):
         processes['-1'].name = "Fake Root Process"
         __analyze_process_tree(processes, process_tree, processes['-1'])
 
-    processtree = maec.bundle.process_tree.ProcessTree()
-    processtree.set_root_process(processes['-1'])
-    wfbundle.process_tree = processtree
+        processtree = maec.bundle.process_tree.ProcessTree()
+        processtree.set_root_process(processes['-1'])
+        wfbundle.process_tree = processtree
 
     # process_list
     LOG.debug("adding action collections")
@@ -375,6 +326,174 @@ def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None):
                 wfbundle.add_named_object_collection("Network Traffic")
                 wfbundle.add_object(rao, "Network Traffic")
 
+
+def add_evidence_from_report(eentries, wfbundle, report):
+    LOG.debug("behavior ids: %s", eentries)
+
+    LOG.debug("adding action collections")
+    wfbundle.add_named_action_collection("Process Activity")
+    wfbundle.add_named_action_collection("Registry Activity")
+    wfbundle.add_named_action_collection("File Activity")
+    wfbundle.add_named_action_collection("Mutex Activity")
+
+    evidence = report.xpath('evidence')
+    if len(evidence) == 0:
+        LOG.debug('no evidence tag')
+        return
+
+    evidence = evidence[0]
+
+    # file
+    file_attrs = {
+        'md5': 'md5',
+        'sha1': 'sha1',
+        'sha256': 'sha256',
+        'type': 'file_format',
+        'size': 'size'
+    }
+
+    file_activity = evidence.xpath('file/entry')
+    if len(file_activity) == 0:
+        LOG.debug("no <file> tag in evidence")
+    else:
+        for cfa in file_activity:
+            bid = cfa.get('behavior_id')
+            if bid not in eentries:
+                LOG.debug("behavior score under threshold, ignored")
+                continue
+
+            attrs = {}
+
+            for a in file_attrs:
+                av = cfa.get(a)
+                if av is not None and av != 'N/A':
+                    attrs[file_attrs[a]] = av.strip()
+
+            action = maecactions.file_create_action(
+                cfa.text.strip(),
+                attrs
+            )
+            wfbundle.add_action(action, 'File Activity')
+
+    # registry
+    registry_activity = evidence.xpath('registry/entry')
+    if len(registry_activity) == 0:
+        LOG.debug("no <registry> tag in evidence")
+    else:
+        for cra in registry_activity:
+            bid = cra.get('behavior_id')
+            if bid not in eentries:
+                LOG.debug("behavior score under threshold, ignored")
+                continue
+
+            reg_key, reg_value = cra.text.strip().rsplit('\\', 1)
+            action = maecactions.registry_modify_key_value_action(
+                reg_key,
+                reg_value,
+                cra.get('value')
+            )
+            wfbundle.add_action(action, 'Registry Activity')
+
+    # process
+    process_activity = evidence.xpath('process/entry')
+    if len(process_activity) == 0:
+        LOG.debug("no <process> tag in evidence")
+    else:
+        for cpa in process_activity:
+            bid = cpa.get('behavior_id')
+            if bid not in eentries:
+                LOG.debug("behavior score under threshold, ignored")
+                continue
+
+            action = maecactions.process_create_action(
+                command=cpa.text.strip()
+            )
+            wfbundle.add_action(action, 'Process Activity')
+
+    # mutex
+    mutex_activity = evidence.xpath('mutex/entry')
+    if len(mutex_activity) == 0:
+        LOG.debug("no <mutex> tag in evidence")
+    else:
+        for cma in mutex_activity:
+            bid = cma.get('behavior_id')
+            if bid not in eentries:
+                LOG.debug(bid)
+                LOG.debug("behavior score under threshold, ignored")
+                continue
+
+            action = maecactions.mutex_create_action(
+                cma.text.strip()
+            )
+            wfbundle.add_action(action, 'Mutex Activity')
+
+def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None,
+                                             evidence=None):
+    LOG.debug("add_dynamic_malware_analysis_from_report")
+
+    # analysis
+    wfanalysis = maec.package.analysis.Analysis(
+        method="dynamic",
+        type="triage"
+    )
+    now = datetime.datetime.utcnow()
+    wfanalysis.lastupdate_datetime = now.strftime(
+        "%Y-%m-%dT%H:%M:%S.000000+00:00"
+    )  # 2014-02-20T09:00:00.000000
+
+    # summary with verdict
+    wfsummary = "Palo Alto Networks Wildfire dynamic analysis " +\
+                "of the malware instance object."
+    software = report.xpath('software/text()')
+    if len(software) > 0:
+        software = software[0].strip()
+        wfsummary = wfsummary+" Software: "+software+"."
+    verdict = report.xpath('malware/text()')
+    if len(verdict) > 0:
+        verdict = verdict[0].strip()
+        wfsummary += " Malware: "+verdict
+    wfanalysis.summary = wfsummary
+
+    # XXX ??? analysis environemnt ???
+    # maybe to specify Wildfire sandbox contents
+    wftool = cybox.common.ToolInformation()
+    wftool.vendor = "http://www.paloaltonetworks.com"
+    wftool.name = "Palo Alto Networks Wildfire"
+    wftool.version = "3.0"
+    wfanalysis.add_tool(wftool)
+
+    # create the bundle
+    wfbundle = maec.bundle.bundle.Bundle(defined_subject=False)
+
+    # add behaviors from report <summary> to <behavior>s
+    # and store the entries with score higher than evidence
+    eentries = set([])
+    summary = report.xpath('summary')
+    if len(summary) == 0:
+        LOG.warning('no <summary> objects in report')
+    else:
+        summary = summary[0]
+        for sentry in summary:
+            edesc = sentry.text.strip()
+            if sentry.get('details') is not None:
+                edesc += " Details: "+sentry.get('details').strip()
+
+            escore = sentry.get('score')
+            if escore is not None:
+                edesc += " score: "+escore
+                escore = float(escore)
+                LOG.debug("%f %f", evidence, escore)
+                if evidence is not None and escore > evidence:
+                    eentries.add(sentry.get('id'))
+
+            cb = maec.bundle.behavior.Behavior(description=edesc)
+            wfbundle.add_behavior(cb)
+
+    if evidence is not None:
+        add_evidence_from_report(eentries, wfbundle, report)
+    else:
+        add_full_dynamic_analysis_from_report(wfbundle, report, pcap)
+
     wfanalysis.set_findings_bundle(wfbundle.id_)
     csubject.add_analysis(wfanalysis)
     csubject.add_findings_bundle(wfbundle)
@@ -432,20 +551,28 @@ def add_static_malware_analysis_from_report(csubject, report, pcap=None):
     csubject.add_findings_bundle(wfbundle)
 
 
-def add_malware_analysis_from_report(csubject, report, pcap=None):
+def add_malware_analysis_from_report(csubject, report, pcap=None, evidence=None):
     static_analysis_platforms = ['100', '101', '102', '104', '204']
 
     platform = report.xpath('platform/text()')
     if len(platform) == 0:
         LOG.warning('no <platform> in <report>, '
                     'let\'s try with a dynamic analysis')
-        return add_dynamic_malware_analysis_from_report(csubject, report,
-                                                        pcap)
+        return add_dynamic_malware_analysis_from_report(
+            csubject,
+            report,
+            pcap,
+            evidence
+        )
 
     platform = platform[0].strip()
     if platform in static_analysis_platforms:
         return add_static_malware_analysis_from_report(csubject, report,
                                                        pcap)
 
-    return add_dynamic_malware_analysis_from_report(csubject, report,
-                                                    pcap)
+    return add_dynamic_malware_analysis_from_report(
+        csubject,
+        report,
+        pcap,
+        evidence
+    )
