@@ -14,4 +14,4 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
