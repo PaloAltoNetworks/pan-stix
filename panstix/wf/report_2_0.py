@@ -413,7 +413,11 @@ def add_static_malware_analysis_from_report(csubject, report, pcap=None):
     csubject.add_findings_bundle(wfbundle)
 
 
-def add_malware_analysis_from_report(csubject, report, pcap=None):
+def add_malware_analysis_from_report(csubject, report, pcap=None, evidence=None):
+    if evidence is not None:
+        LOG.debug("no evidence tag in report 2.0")
+        return
+
     static_analysis_platforms = ['100', '101', '102']
 
     platform = report.xpath('platform/text()')

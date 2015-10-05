@@ -86,7 +86,7 @@ def get_malware_instance_object_attributes_from_fileinfo(wffileinfo, wfreport):
     return cmioa
 
 
-def add_malware_analysis_from_report(csubject, wfrreport, pcapcb):
+def add_malware_analysis_from_report(csubject, wfrreport, pcapcb, evidence):
     wfrreports = wfrreport.xpath('task_info/report')
     if len(wfrreports) != 0:
         for cwfrr in wfrreports:
@@ -101,19 +101,22 @@ def add_malware_analysis_from_report(csubject, wfrreport, pcapcb):
                 report_0_1.add_malware_analysis_from_report(
                     csubject,
                     cwfrr,
-                    pcapcb
+                    pcapcb,
+                    evidence
                 )
             elif rversion == '2.0':
                 report_2_0.add_malware_analysis_from_report(
                     csubject,
                     cwfrr,
-                    pcapcb
+                    pcapcb,
+                    evidence
                 )
             elif rversion == '3.0':
                 report_3_0.add_malware_analysis_from_report(
                     csubject,
                     cwfrr,
-                    pcapcb
+                    pcapcb,
+                    evidence
                 )
             else:
                 LOG.warning('unknown report version number: %s' % rversion)
@@ -122,7 +125,7 @@ def add_malware_analysis_from_report(csubject, wfrreport, pcapcb):
         LOG.warning('no report inside wildfire report')
 
 
-def __create_malware_subject_from_report(wfreport, pcap=None):
+def __create_malware_subject_from_report(wfreport, pcap=None, evidence=None):
     WFNS = cybox.utils.Namespace(
         "https://github.com/PaloAltoNetworks-BD/pan-stix",
         "pan-stix"
@@ -147,7 +150,12 @@ def __create_malware_subject_from_report(wfreport, pcap=None):
     )
     csubject.set_malware_instance_object_attributes(cmioa)
 
-    add_malware_analysis_from_report(csubject, wfreport, pcap)
+    add_malware_analysis_from_report(
+        csubject,
+        wfreport,
+        pcap,
+        evidence
+    )
 
     return csubject
 
@@ -228,4 +236,8 @@ def get_malware_subject_from_report(**kwargs):
     else:
         pcap = None
 
-    return __create_malware_subject_from_report(report, pcap)
+    return __create_malware_subject_from_report(
+        report,
+        pcap=pcap,
+        evidence=kwargs.get('evidence', None)
+    )

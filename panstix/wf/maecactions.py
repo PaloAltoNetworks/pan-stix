@@ -276,7 +276,7 @@ def __associated_object_factory(aodict, atype):
     return ao
 
 
-def process_create_action(child_pid, ifile=None, command=None):
+def process_create_action(child_pid=None, ifile=None, command=None):
     action = maec.bundle.malware_action.MalwareAction()
 
     action.name = maec.vocabs.ProcessActionName()
@@ -284,9 +284,10 @@ def process_create_action(child_pid, ifile=None, command=None):
 
     action.associated_objects = cybox.core.AssociatedObjects()
     d = {
-        'type': 'process',
-        'pid': child_pid
+        'type': 'process'
     }
+    if child_pid is not None:
+        d['pid'] = child_pid
     if ifile is not None:
         d['image_file'] = ifile
     if command is not None:

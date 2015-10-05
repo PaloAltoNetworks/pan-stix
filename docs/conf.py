@@ -16,6 +16,50 @@ import sys
 import os
 import shlex
 
+import mock
+
+MOCK_MODULES = [
+  'stix',
+  'cybox',
+  'maec',
+  'lxml',
+  'maec.package',
+  'maec.package.package',
+  'maec.package.malware_subject',
+  'maec.package.analysis',
+  'maec.bundle',
+  'maec.bundle.bundle',
+  'maec.bundle.malware_action',
+  'maec.bundle.process_tree',
+  'maec.bundle.behavior',
+  'stix.extensions',
+  'stix.extensions.malware',
+  'stix.extensions.malware.maec_4_1_malware',
+  'stix.ttp',
+  'cybox.core',
+  'stix.indicator',
+  'cybox.common',
+  'cybox.objects',
+  'cybox.objects.file_object',
+  'cybox.objects.process_object',
+  'cybox.objects.win_registry_key_object',
+  'cybox.objects.network_connection_object',
+  'cybox.objects.socket_address_object',
+  'cybox.objects.address_object',
+  'cybox.objects.port_object',
+  'cybox.objects.dns_query_object',
+  'cybox.objects.uri_object',
+  'cybox.objects.http_session_object',
+  'cybox.objects.mutex_object',
+  'cybox.objects.dns_record_object',
+  'cybox.objects.win_service_object',
+  'cybox.objects.artifact_object',
+  'cybox.utils',
+  'maec.utils',
+  'maec.vocabs'
+]
+sys.modules.update((mod_name, mock.Mock()) for mod_name in MOCK_MODULES)
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.

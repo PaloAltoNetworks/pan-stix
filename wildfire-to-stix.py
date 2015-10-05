@@ -79,7 +79,8 @@ def dump_report_to_stix_il(options):
     sp = panstix.packaging.get_stix_il_package_from_wfreport(
         hash=options.hash,
         tag=options.tag,
-        report=options.inreport
+        report=options.inreport,
+        evidence=options.evidence
     )
 
     if options.outfile is not None:
@@ -194,6 +195,14 @@ def _parse_opts():
         dest='outfile',
         metavar='<output filename>',
         help='output filename'
+    )
+    parser.add_argument(
+        '-e', '--evidence',
+        action='store',
+        dest='evidence',
+        type=float,
+        metavar='<evidence score>',
+        help='minimum evidence score'
     )
 
     if len(sys.argv) == 1:
