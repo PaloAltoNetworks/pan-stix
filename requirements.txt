@@ -2,3 +2,4 @@ cybox==2.1.0.11
 lxml==3.4.4
 maec==4.1.0.12
 pan-python==0.7.0
+mock==1.3.0
