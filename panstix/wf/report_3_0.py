@@ -156,7 +156,7 @@ def __handle_process(p, pdict, bundle):
 
                 for a in file_attrs:
                     av = cfa.get(a)
-                    if av is not None and av != 'N/A':
+                    if av is not None and av not in ['N/A', 'unknown']:
                         attrs[file_attrs[a]] = av.strip()
 
                 action = maecactions.file_delete_action(
@@ -482,7 +482,7 @@ def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None,
             if escore is not None:
                 edesc += " score: "+escore
                 escore = float(escore)
-                LOG.debug("%f %f", evidence, escore)
+
                 if evidence is not None and escore > evidence:
                     eentries.add(sentry.get('id'))
 
