@@ -32,6 +32,11 @@ from . import wf
 
 LOG = logging.getLogger(__name__)
 
+SCORE_ALL = 0.0
+SCORE_LOW = 0.1
+SCORE_MEDIUM = 0.3
+SCORE_HIGH = 0.8
+
 
 def get_stix_ol_package_from_wfreport(**kwargs):
     """Generate a STIX package with a list of CybOX Observables extracted
