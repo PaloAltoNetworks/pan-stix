@@ -427,6 +427,7 @@ def add_evidence_from_report(eentries, wfbundle, report):
             )
             wfbundle.add_action(action, 'Mutex Activity')
 
+
 def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None,
                                              evidence=None):
     LOG.debug("add_dynamic_malware_analysis_from_report")
@@ -483,7 +484,7 @@ def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None,
                 edesc += " score: "+escore
                 escore = float(escore)
 
-                if evidence is not None and escore > evidence:
+                if evidence is not None and escore >= evidence:
                     eentries.add(sentry.get('id'))
 
             cb = maec.bundle.behavior.Behavior(description=edesc)
@@ -551,7 +552,8 @@ def add_static_malware_analysis_from_report(csubject, report, pcap=None):
     csubject.add_findings_bundle(wfbundle)
 
 
-def add_malware_analysis_from_report(csubject, report, pcap=None, evidence=None):
+def add_malware_analysis_from_report(csubject, report,
+                                     pcap=None, evidence=None):
     static_analysis_platforms = ['100', '101', '102', '104', '204']
 
     platform = report.xpath('platform/text()')
