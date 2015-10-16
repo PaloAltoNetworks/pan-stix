@@ -483,7 +483,7 @@ def add_dynamic_malware_analysis_from_report(csubject, report, pcap=None,
                 edesc += " score: "+escore
                 escore = float(escore)
 
-                if evidence is not None and escore > evidence:
+                if evidence is not None and escore >= evidence:
                     eentries.add(sentry.get('id'))
 
             cb = maec.bundle.behavior.Behavior(description=edesc)
