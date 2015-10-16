@@ -49,7 +49,7 @@ def get_malware_instance_object_attributes_from_fileinfo(wffileinfo, wfreport):
     cmioa = cybox.core.Object()
 
     cmioa.properties = cybox.objects.file_object.File()
-    cmioa.properties.file_name = "sample.exe"
+
     cmioa.properties.hashes = cybox.common.HashList()
     for cchild in wffileinfo:
         if cchild.tag == 'md5':
