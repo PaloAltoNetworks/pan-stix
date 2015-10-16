@@ -40,7 +40,7 @@ SCORE_HIGH = 0.8
 
 def get_stix_ol_package_from_wfreport(**kwargs):
     """Generate a STIX package with a list of CybOX Observables extracted
-    from a Wildfire report. 
+    from a Wildfire report.
 
     The Wildfire report is retrieved using Wildfire API if *hash* and
     *tag* keyword arguments are specified, or read from a file passed via
@@ -98,7 +98,7 @@ def get_stix_ol_package_from_wfreport(**kwargs):
 
 def get_stix_il_package_from_wfreport(**kwargs):
     """Generate a STIX package with a list of STIX Indicators extracted
-    from a Wildfire report. 
+    from a Wildfire report.
 
     The Wildfire report is retrieved using Wildfire API if *hash* and
     *tag* keyword arguments are specified, or read from a file passed via
@@ -158,7 +158,7 @@ def get_stix_il_package_from_wfreport(**kwargs):
 
 
 def get_maec_package_from_wfreport(**kwargs):
-    """Generate a MAEC package from a Wildfire report. 
+    """Generate a MAEC package from a Wildfire report.
 
     The Wildfire report is retrieved using Wildfire API if *hash* and
     *tag* keyword arguments are specified, or read from a file passed via
@@ -198,7 +198,7 @@ def get_maec_package_from_wfreport(**kwargs):
 
 
 def get_stix_package_from_wfreport(**kwargs):
-    """Generate a STIX package from a Wildfire report. 
+    """Generate a STIX package from a Wildfire report.
 
     The Wildfire report is retrieved using Wildfire API if *hash* and
     *tag* keyword arguments are specified, or read from a file passed via
