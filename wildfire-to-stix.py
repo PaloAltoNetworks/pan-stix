@@ -36,6 +36,8 @@ def dump_report_to_stix(options):
     )
 
     sp = panstix.packaging.get_stix_package_from_wfreport(
+        title=options.title,
+        short_description=options.title,
         hash=options.hash,
         tag=options.tag,
         report=options.inreport,
@@ -57,6 +59,8 @@ def dump_report_to_stix_ol(options):
     )
 
     sp = panstix.packaging.get_stix_ol_package_from_wfreport(
+        title=options.title,
+        short_description=options.title,
         hash=options.hash,
         tag=options.tag,
         report=options.inreport
@@ -77,6 +81,8 @@ def dump_report_to_stix_il(options):
     )
 
     sp = panstix.packaging.get_stix_il_package_from_wfreport(
+        title=options.title,
+        short_description=options.title,
         hash=options.hash,
         tag=options.tag,
         report=options.inreport,
@@ -204,6 +210,13 @@ def _parse_opts():
         metavar='<evidence score>',
         help='minimum evidence score'
     )
+    parser.add_argument(
+        '--title',
+        action='store',
+        default=None,
+        metavar='<title>',
+        help='title of the STIX package'
+    )
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -240,6 +253,9 @@ def _parse_opts():
         print('CRITICAL: should be specified to retrieve samples',
               file=sys.stderr)
         sys.exit(1)
+
+    if options.outfmt == 'maec' and options.title is not None:
+        print('WARNING: title option ignored for MAEC format')
 
     return options
 
