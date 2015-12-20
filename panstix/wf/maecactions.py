@@ -23,6 +23,7 @@ import logging
 
 import maec.bundle.malware_action
 import maec.vocabs
+import re
 
 import cybox.core
 import cybox.common
@@ -42,6 +43,26 @@ import cybox.objects.win_service_object
 import cybox.utils
 
 LOG = logging.getLogger(__name__)
+HKCR_HIVE_RE = re.compile(
+    '\\\\registry\\\\machine\\\\software\\\\classes(\\\\|$)',
+    flags=re.I
+)
+HKLM_HIVE_RE = re.compile(
+    '\\\\registry\\\\machine(\\\\|$)',
+    flags=re.I
+)
+HKCU_HIVE_RE = re.compile(
+    '\\\\registry\\\\user\\\\s-[0-9]+-[0-9]+(?:-[0-9]+)+(\\\\|$)',
+    flags=re.I
+)
+HKCU_HIVE_G_RE = re.compile(
+    '\\\\registry\\\\user\\\\<user-guid>(\\\\|$)',
+    flags=re.I
+)
+HKU_HIVE_RE = re.compile(
+    '\\\\registry\\\\user(\\\\|$)',
+    flags=re.I
+)
 
 
 def __associated_object_process_factory(ao, aodict):
@@ -362,6 +383,44 @@ def file_write_action(file_name):
     return action
 
 
+def __registry_split_hivelocation_key(reg_key):
+    LOG.debug('__registry_split_hivelocation_key: %s', reg_key)
+
+    mo = HKCR_HIVE_RE.match(reg_key)
+    if mo is not None:
+        if mo.group(1) == '\\':
+            return 'HKEY_CLASSES_ROOT', reg_key.split('\\', 5)[5]
+        return 'HKEY_CLASSES_ROOT', None
+
+    mo = HKLM_HIVE_RE.match(reg_key)
+    if mo is not None:
+        if mo.group(1) == '\\':
+            return 'HKEY_LOCAL_MACHINE', reg_key.split('\\', 3)[3]
+        return 'HKEY_LOCAL_MACHINE', None
+
+    mo = HKCU_HIVE_RE.match(reg_key)
+    if mo is not None:
+        if mo.group(1) == '\\':
+            return 'HKEY_CURRENT_USER', reg_key.split('\\', 4)[4]
+        return 'HKEY_CURRENT_USER', None
+
+    mo = HKCU_HIVE_G_RE.match(reg_key)
+    if mo is not None:
+        if mo.group(1) == '\\':
+            return 'HKEY_CURRENT_USER', reg_key.split('\\', 4)[4]
+        return 'HKEY_CURRENT_USER', None
+
+    mo = HKU_HIVE_RE.match(reg_key)
+    if mo is not None:
+        if mo.group(1) == '\\':
+            return 'HKEY_USERS', reg_key.split('\\', 3)[3]
+        return 'HKEY_USERS', None
+
+    raise RuntimeError(
+        'hive location registry key not matching any RE'
+    )
+
+
 def registry_create_key_action(reg_key, reg_subkey):
     action = maec.bundle.malware_action.MalwareAction()
 
@@ -369,15 +428,25 @@ def registry_create_key_action(reg_key, reg_subkey):
     action.name.value = "create registry key"
 
     action.associated_objects = cybox.core.AssociatedObjects()
+
     aof_args = {
         'type': 'registry'
     }
+
     if reg_key.startswith('HKEY_'):
         aof_args['hive'] = reg_key
         aof_args['key'] = reg_subkey
+    elif reg_key.upper().startswith('\\REGISTRY\\'):
+        hive, key = __registry_split_hivelocation_key(reg_key)
+        if hive is not None:
+            aof_args['hive'] = hive
+        if key is not None:
+            aof_args['key'] = key
+        aof_args['subkey'] = reg_subkey
     else:
         aof_args['key'] = reg_key
         aof_args['subkey'] = reg_subkey
+
     ao = __associated_object_factory(aof_args, 'output')
     action.associated_objects.append(ao)
 
@@ -391,11 +460,30 @@ def registry_modify_key_value_action(reg_key, reg_name=None, reg_data=None):
     action.name.value = "modify registry key value"
 
     action.associated_objects = cybox.core.AssociatedObjects()
-    aodict = {'type': 'registry', 'key': reg_key}
+
+    aodict = {
+        'type': 'registry'
+    }
+
+    if reg_key.startswith('HKEY_'):
+        raise RuntimeError(
+            'key param with hive in registry_modify_key_value_action: %s' %
+            (reg_key)
+        )
+    elif reg_key.upper().startswith('\\REGISTRY\\'):
+        hive, key = __registry_split_hivelocation_key(reg_key)
+        if hive is not None:
+            aodict['hive'] = hive
+        if key is not None:
+            aodict['key'] = key
+    else:
+        aodict['key'] = reg_key
+
     if reg_name is not None:
         aodict['name'] = reg_name
     if reg_data is not None:
         aodict['data'] = reg_data
+
     ao = __associated_object_factory(aodict, 'input')
     action.associated_objects.append(ao)
 
@@ -409,10 +497,26 @@ def registry_delete_key_value_action(reg_key):
     action.name.value = "delete registry key value"
 
     action.associated_objects = cybox.core.AssociatedObjects()
-    ao = __associated_object_factory(
-        {'type': 'registry', 'key': reg_key},
-        'input'
-    )
+
+    aodict = {
+        'type': 'registry'
+    }
+
+    if reg_key.startswith('HKEY_'):
+        raise RuntimeError(
+            'key param with hive in registry_delete_key_value_action: %s' %
+            (reg_key)
+        )
+    elif reg_key.upper().startswith('\\REGISTRY\\'):
+        hive, key = __registry_split_hivelocation_key(reg_key)
+        if hive is not None:
+            aodict['hive'] = hive
+        if key is not None:
+            aodict['key'] = key
+    else:
+        aodict['key'] = reg_key
+
+    ao = __associated_object_factory(aodict, 'input')
     action.associated_objects.append(ao)
 
     return action
@@ -425,10 +529,26 @@ def registry_delete_key_action(reg_key):
     action.name.value = "delete registry key"
 
     action.associated_objects = cybox.core.AssociatedObjects()
-    ao = __associated_object_factory(
-        {'type': 'registry', 'key': reg_key},
-        'input'
-    )
+
+    aodict = {
+        'type': 'registry'
+    }
+
+    if reg_key.startswith('HKEY_'):
+        raise RuntimeError(
+            'key param with hive in registry_delete_key_action: %s' %
+            (reg_key)
+        )
+    elif reg_key.upper().startswith('\\REGISTRY\\'):
+        hive, key = __registry_split_hivelocation_key(reg_key)
+        if hive is not None:
+            aodict['hive'] = hive
+        if key is not None:
+            aodict['key'] = key
+    else:
+        aodict['key'] = reg_key
+
+    ao = __associated_object_factory(aodict, 'input')
     action.associated_objects.append(ao)
 
     return action
