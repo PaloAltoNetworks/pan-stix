@@ -42,6 +42,9 @@ import cybox.objects.dns_record_object
 import cybox.objects.win_service_object
 import cybox.utils
 
+import panstix.wf.decontext
+
+
 LOG = logging.getLogger(__name__)
 HKCR_HIVE_RE = re.compile(
     '\\\\registry\\\\machine\\\\software\\\\classes(\\\\|$)',
@@ -82,7 +85,35 @@ def __associated_object_process_factory(ao, aodict):
 def __associated_object_file_factory(ao, aodict):
     ao.properties = cybox.objects.file_object.File()
     if 'file_name' in aodict:
-        ao.properties.file_name = aodict['file_name']
+        filepath = None
+        filename = aodict['file_name']
+
+        toks = filename.rsplit('\\', 1)
+        if len(toks) > 1:
+            filepath = toks[0]
+            filename = toks[1]
+
+            if len(filepath) > 3:
+                if filepath[1] == ':' and filepath[2] == '\\':
+                    filepath = filepath[2:]
+
+        if panstix.wf.DECONTEXT_ENABLED:
+            panstix.wf.decontext.file_name(
+                ao.properties,
+                filename
+            )
+        else:
+            ao.properties.file_name = filename
+
+        if filepath is not None:
+            if panstix.wf.DECONTEXT_ENABLED:
+                panstix.wf.decontext.file_path(
+                    ao.properties,
+                    filepath
+                )
+            else:
+                ao.properties.file_path = filepath
+
     if 'md5' in aodict or 'sha1' in aodict or 'sha256' in aodict:
         ao.properties.hashes = cybox.common.HashList()
         if 'md5' in aodict:
@@ -97,10 +128,13 @@ def __associated_object_file_factory(ao, aodict):
             ao.properties.hashes.append(
                 cybox.common.Hash(aodict['sha1'], type_="SHA1")
             )
+
     if 'size' in aodict:
         ao.properties.size_in_bytes = aodict['size']
+
     if 'file_format' in aodict:
         ao.properties.file_format = aodict['file_format']
+
     return ao
 
 
@@ -108,14 +142,17 @@ def __associated_object_registry_factory(ao, aodict):
     ao.properties = cybox.objects.win_registry_key_object.WinRegistryKey()
     if 'key' in aodict:
         ao.properties.key = aodict['key']
+
     if 'subkey' in aodict:
         ao.properties.subkeys = \
             cybox.objects.win_registry_key_object.RegistrySubkeys()
         sk = cybox.objects.win_registry_key_object.WinRegistryKey()
         sk.key = aodict['subkey']
         ao.properties.subkeys.append(sk)
+
     if 'hive' in aodict:
         ao.properties.hive = aodict['hive']
+
     if 'name' in aodict or 'data' in aodict:
         ao.properties.values = \
             cybox.objects.win_registry_key_object.RegistryValues()
@@ -123,8 +160,16 @@ def __associated_object_registry_factory(ao, aodict):
         if 'name' in aodict:
             rv.name = aodict['name']
         if 'data' in aodict:
-            rv.data = aodict['data']
+            if panstix.wf.DECONTEXT_ENABLED:
+                panstix.wf.decontext.registry_data(
+                    rv,
+                    aodict['data']
+                )
+            else:
+                rv.data = aodict['data']
+
         ao.properties.values.append(rv)
+
     return ao
 
 

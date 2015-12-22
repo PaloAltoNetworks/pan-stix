@@ -86,7 +86,8 @@ def dump_report_to_stix_il(options):
         hash=options.hash,
         tag=options.tag,
         report=options.inreport,
-        evidence=options.evidence
+        evidence=options.evidence,
+        decontext=options.decontext
     )
 
     if options.outfile is not None:
@@ -217,6 +218,13 @@ def _parse_opts():
         metavar='<title>',
         help='title of the STIX package'
     )
+    parser.add_argument(
+        '-d', '--decontextualize',
+        action='store_true',
+        dest='decontext',
+        default=False,
+        help='remove context from observables'
+    )
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -256,6 +264,10 @@ def _parse_opts():
 
     if options.outfmt == 'maec' and options.title is not None:
         print('WARNING: title option ignored for MAEC format')
+
+    if options.decontext and options.outfmt not in ['stix-il']:
+        print('CRITICAL: decontext can be used only with stix-ol and stix-il')
+        sys.exit(1)
 
     return options
 

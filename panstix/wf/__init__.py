@@ -19,3 +19,11 @@ from .utils import add_malware_analysis_from_report  # noqa
 from .utils import get_malware_subject_from_report  # noqa
 from .sample import get_raw_artifact_from_sample_hash  # noqa
 from .sample import get_raw_artifact_from_sample  # noqa
+
+
+DECONTEXT_ENABLED = False
+
+
+def enable_decontext():
+    global DECONTEXT_ENABLED
+    DECONTEXT_ENABLED = True
