@@ -25,6 +25,9 @@ LOG = logging.getLogger(__name__)
 def file_object_to_indicator(pd):
     LOG.debug('file: %s', pd)
 
+    if 'file_name' not in pd and 'hashes' not in pd:
+        return None
+
     if 'file_name' in pd and 'hashes' in pd:
         # if both file_name and hashes are present we split
         # the object in 2 observables within an ObservableComposition
