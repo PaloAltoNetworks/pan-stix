@@ -24,8 +24,8 @@ import cybox.objects.file_object
 
 import maec.package.malware_subject
 
-import cybox.utils
-import maec.utils
+import mixbox.namespaces
+import mixbox.idgen
 
 from . import report_0_1
 from . import report_2_0
@@ -126,12 +126,11 @@ def add_malware_analysis_from_report(csubject, wfrreport, pcapcb, evidence):
 
 
 def __create_malware_subject_from_report(wfreport, pcap=None, evidence=None):
-    WFNS = cybox.utils.Namespace(
+    WFNS = mixbox.namespaces.Namespace(
         "https://github.com/PaloAltoNetworks-BD/pan-stix",
         "pan-stix"
     )
-    maec.utils.set_id_namespace(WFNS)
-    cybox.utils.set_id_namespace(WFNS)
+    mixbox.idgen.set_id_namespace(WFNS)
 
     csubject = maec.package.malware_subject.MalwareSubject()
 

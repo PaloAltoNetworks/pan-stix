@@ -26,6 +26,7 @@ import stix.extensions.malware.maec_4_1_malware
 import stix.ttp
 import cybox.core
 import stix.indicator
+import stix.core
 
 from .exceptions import PanStixError
 from . import wf
