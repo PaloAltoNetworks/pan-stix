@@ -2,4 +2,4 @@ cybox==2.1.0.14
 mixbox==1.0.2
 pan-python==0.12.0
 stix==1.1.1.9
--e git+https://github.com/jtschichold/python-maec.git@8a6e023b42d96ecccfd782487bb07083a110ad73#egg=maec
+-e git+https://github.com/jtschichold/python-maec.git@fix-maec-actioncollectionslist-to_obj#egg=maec
