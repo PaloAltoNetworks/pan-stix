@@ -19,6 +19,7 @@ API and CLI script documentation are available at http://pan-stix.readthedocs.or
 
     $ git clone https://github.com/PaloAltoNetworks-BD/pan-stix.git
     $ cd pan-stix
+    $ pip install -r requirements.txt
     $ python setup.py install
 
 ## Author

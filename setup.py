@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath('.'))
 from panstix import __version__
 
 with open('requirements.txt') as f:
-    _requirements = f.read().splitlines()
+    _requirements = [dep for dep in f.read().splitlines() if not dep.startswith('git+')]
 
 with open('README.md') as f:
     _long_description = f.read()
