@@ -30,6 +30,7 @@ import stix.core
 
 from .exceptions import PanStixError
 from . import wf
+from . import iutils
 
 LOG = logging.getLogger(__name__)
 
@@ -56,6 +57,10 @@ def get_stix_ol_package_from_wfreport(**kwargs):
     :param evidence: can be used to retrieve only indicators associated to
         malicious behaviors with a score higher than this threshold
     :type evidence: float
+    :param title: title of the package
+    :type title: str
+    :param short_description: short description of the package
+    :type short_description: str
     :returns: A STIX Package object with the list of Observables extracted
         from the Wildfire report.
     :rtype: stix.core.STIXPackage
@@ -71,10 +76,15 @@ def get_stix_ol_package_from_wfreport(**kwargs):
     hash = ms.malware_instance_object_attributes.properties.hashes.sha256
 
     # create STIX Package
+    short_description = kwargs.get('short_description', None)
+    description = "Sample "+hash+" - observables"
+    if short_description is not None:
+        description = short_description+'. '+description
     stix_package = stix.core.STIXPackage()
     stix_header = stix.core.STIXHeader(
-        description="Sample "+hash+" - observables",
-        title=hash
+        short_description=short_description,
+        description=description,
+        title=kwargs.get('title', hash)
     )
     stix_package.stix_header = stix_header
 
@@ -117,11 +127,20 @@ def get_stix_il_package_from_wfreport(**kwargs):
     :param evidence: can be used to retrieve only indicators associated to
         malicious behaviors with a score higher than this threshold
     :type evidence: float
+    :param title: title of the package
+    :type title: str
+    :param short_description: short description of the package
+    :type short_description: str
+    :param decontext: remove context from observables, default False
+    :type decontext: bool
     :returns: A STIX Package object with the list of Indicators extracted
         from the Wildfire report.
     :rtype: stix.core.STIXPackage
 
     """
+    if kwargs.get('decontext', False):
+        wf.enable_decontext()
+
     # get malware subject from wf submodule
     subargs = {k: v for k, v in kwargs.iteritems()
                if k in ['hash', 'tag', 'report', 'evidence']
@@ -131,10 +150,15 @@ def get_stix_il_package_from_wfreport(**kwargs):
     hash = ms.malware_instance_object_attributes.properties.hashes.sha256
 
     # create STIX Package
+    short_description = kwargs.get('short_description', None)
+    description = "Sample "+hash+" - indicators"
+    if short_description is not None:
+        description = short_description+'. '+description
     stix_package = stix.core.STIXPackage()
     stix_header = stix.core.STIXHeader(
-        description="Sample "+hash+" - indicators",
-        title=hash
+        short_description=short_description,
+        description=description,
+        title=kwargs.get('title', hash)
     )
     stix_package.stix_header = stix_header
 
@@ -156,10 +180,9 @@ def get_stix_il_package_from_wfreport(**kwargs):
                     # are you still with me ?
                     p = ao.properties
                     p.parent = None
-                    o = cybox.core.Observable(item=p)
-                    i = stix.indicator.Indicator()
-                    i.add_observable(o)
-                    stix_package.add_indicator(i)
+                    i = iutils.object_to_indicator(p)
+                    if i is not None:
+                        stix_package.add_indicator(i)
 
     return stix_package
 
@@ -228,10 +251,16 @@ def get_stix_package_from_wfreport(**kwargs):
     :param evidence: can be used to retrieve only indicators associated to
         malicious behaviors with a score higher than this threshold
     :type evidence: float
+    :param title: title of the package
+    :type title: str
+    :param short_description: short description of the package
+    :type short_description: str
     :returns: A STIX Package object with Wildfire report contents.
     :rtype: stix.core.Package
 
     """
+    LOG.debug(kwargs)
+
     # get malware subject from wf submodule
     subargs = {k: v for k, v in kwargs.iteritems()
                if k in ['hash', 'tag', 'report', 'pcap', 'evidence'] and
@@ -257,10 +286,15 @@ def get_stix_package_from_wfreport(**kwargs):
     ttp.behavior = mb
 
     # add TTP to STIX package
+    short_description = kwargs.get('short_description', None)
+    description = "Sample "+hash+" Artifacts and Characterization"
+    if short_description is not None:
+        description = short_description+'. '+description
     stix_package = stix.core.STIXPackage()
     stix_header = stix.core.STIXHeader(
-        description="Sample "+hash+" Artifacts and Characterization",
-        title=hash
+        short_description=short_description,
+        description=description,
+        title=kwargs.get('title', hash)
     )
     stix_package.stix_header = stix_header
     stix_package.add_ttp(ttp)
